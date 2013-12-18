@@ -1,7 +1,7 @@
 World Manager is an Open Source world management tool for Unity3D virtual spaces.
 
 It consists of a proxy for handling requests from the Unity3D www class, 
-several built in libraries designed to talk to Unity through Application.ExternalCall() (such an an OpenTok library),
+several built in libraries designed to talk to Unity through Application.ExternalCall() (such as an OpenTok library),
 and a management tool where instructors and admins can select components of a virtual space to quickly generate a new space.
 
 This tool is dependent on: 
