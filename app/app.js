@@ -4,6 +4,7 @@ var express = require('express')
   , Handlebars = require('handlebars')
   , request = require('request')  
   , app = express()
+  , server = require('http').createServer(app)
   , fs = require('fs')
   , passport = require('passport')
   , GoogleStrategy = require('passport-google').Strategy
@@ -18,7 +19,7 @@ var express = require('express')
   , defaultHandlebars = require('./defaultHandlebars')
   , OpenTok = require('opentok')
   , opentok = new OpenTok.OpenTokSDK(config.opentokapi, config.opentoksecret)
-  , io = require('socket.io').listen(config.port+1);
+  , io = require('socket.io').listen(server);
 var secret = 'keyboard cat';
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -434,7 +435,7 @@ var port = config.port;
 var tokens = {};
 var sessions = {};
 console.log("WorldManager now listening on port:" + port);
-app.listen(port);
+server.listen(port);
 
 io.sockets.on('connection', function (socket) {
 	socket.on('generateToken', function (data, fn) {
