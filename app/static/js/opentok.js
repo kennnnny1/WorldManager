@@ -1,5 +1,5 @@
-var currentRoom;
-var room = 'room2';
+var currentRoom = 'middle';
+var room = 'middle';
 var user;
 var sessions = {};
 var globaldata = {};

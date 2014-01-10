@@ -251,11 +251,11 @@ app.post('/', function(req, res, next){
 				});	
 			});
 			newWorld.opentokSessions = {};
-			opentok.createSession('127.0.0.1', function(result) {
+			opentok.createSession('127.0.0.1', {'p2p.preference' : 'disabled' },  function(result) {
 				newWorld.opentokSessions.management = result;
-				opentok.createSession('127.0.0.1', function(result) {
+				opentok.createSession('127.0.0.1', {'p2p.preference' : 'disable' },  function(result) {
 					newWorld.opentokSessions.union = result;
-					opentok.createSession('127.0.0.1', function(result) {
+					opentok.createSession('127.0.0.1', {'p2p.preference' : 'disable' },  function(result) {
 						newWorld.opentokSessions.middle = result;
 						db.collection('worlds').save(newWorld);
 					});
@@ -431,9 +431,26 @@ app.post('/editprofile', function(req, res, next){
 	db.collection('worlds').update({"identifier":req.user.identifier}, {$set : query });
 	res.redirect('/myprofile');
 });
-var port = config.port;
 var tokens = {};
 var sessions = {};
+app.get('/token/:sessionid', function(req, res, next) {
+	console.log(req.route.params.sessionid);
+	if(tokens[req.route.params.sessionid] != null && (tokens[req.route.params.sessionid].timestamp-new Date().getTime())<43200000)
+	{
+		res.send(tokens[req.route.params.sessionid]);
+	}
+	else
+	{
+		tokens[req.route.params.sessionid] = {};
+		tokens[req.route.params.sessionid].session = opentok.generateToken({
+			session_id:req.route.params.sessionid,
+			role : OpenTok.RoleConstants.PUBLISHER
+		});
+		tokens[req.route.params.sessionid].timestamp = new Date().getTime();
+		res.send(tokens[req.route.params.sessionid]);
+	}
+});
+var port = config.port;
 console.log("WorldManager now listening on port:" + port);
 server.listen(port);
 

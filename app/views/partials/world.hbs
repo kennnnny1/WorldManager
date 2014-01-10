@@ -1,4 +1,5 @@
-<script type="text/javascript" src="http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject.js"/>
+<script type="text/javascript" src="http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject.js"></script>
+<script src="//swww.tokbox.com/webrtc/v2.0/js/TB.js"></script>
 <script type="text/javascript">
 <!--                function GetUnity() {
                         if (typeof unityObject !== "undefined") {
@@ -14,10 +15,148 @@
                 }
 -->
 </script>
+<script type="text/javascript" src="/js/opentok.js"></script>
+<script type="text/javascript">
+var apikey = "10120602";
+var sessionids = {
+"union" : "{{world.opentokSessions.union}}",
+"management" : "{{world.opentokSessions.management}}",
+"middle" : "{{world.opentokSessions.middle}}"
+};
+var tokens = {};
+//initalize the sessions
+for (var key in sessionids) {
+	//init session, and grab a token so that we can authenticate to it
+	console.log("Creating session with id: " + sessionids[key]);
+	var session = TB.initSession(sessionids[key]);
+	sessions[key] = session;
+	sessions[key].addEventListener('sessionConnected', sessionConnectedHandler);
+	sessions[key].addEventListener('streamCreated', streamCreatedHandler);
+	sessions[key].addEventListener('connectionDestroyed', connectionDestroyedHandler);
+	sessions[key].addEventListener('streamDestroyed', streamDestroyedHandler);
+}
+$.ajax({
+	"url" : "/token/" +sessionids["union"],
+	success: function(data) {
+		tokens["union"]= data.session;
+	}
+});
+$.ajax({
+	"url" : "/token/" +sessionids["management"],
+	success: function(data) {
+		tokens["management"]= data.session;
+	}
+});
+$.ajax({
+	"url" : "/token/" +sessionids["middle"],
+	success: function(data) {
+		tokens["middle"]= data.session;
+	}
+});
+console.log("Joining:" + room);
+</script>
+<script type="text/javascript" src="/js/opentok2opentok.js"></script>
+
+<script type="text/javascript">
+
+function GetUserName(gameObject) {
+}
+function GetUserUUID(gameObject) {
+}
+function GetDynamicRoomId(gameObject) {
+}
+function LoadExternalWebpage(dataFromUnity) {
+document.getElementById("RightiFrame").src = dataFromUnity;
+
+}
+function LoadExternal(linkUrl) {
+document.getElementById("externallink").innerHTML = "<a href='" + linkUrl + "' target='_blank'>" + linkUrl + "<\/a>";
+}
+function ChatHistory(chatMessage) {
+$(function() {
+$('#ToggleChat').show();
+});
+document.getElementById("ChatHistory").innerHTML += chatMessage + '\n';
+document.getElementById("ChatHistory").scrollTop = document.getElementById("ChatHistory").scrollHeight;
+}
+function DebugHistory(message) {
+}
+function FullScreen() {
+}
+function ChatAlert(unreadCount) {
+if (unreadCount > 1) {
+document.title = baseTitle + " < " + unreadCount + " Unread Chats >";
+}
+else if (unreadCount = 1) {
+document.title = baseTitle + " < " + unreadCount + " Unread Chat >";
+}
+else {
+document.title = baseTitle;
+}
+}
+function updateWebpageTextEditor(textToDisplay, areaToDisplay) {
+//console.log("Recevied message from unity");
+//$(areaToDisplay).val(areaToDisplay);
+}
+function addToVivoxUsers(userName) {
+$("#VivoxOnlineUsers").append("<div id=" + userName + ">" + decodeURI(userName) + "<div class=" + "Speaking" + ">" + "</div>" + "<div class=" + "Hand" + ">" + "</div>"+"</div>");
+
+}
+function removeFromVivoxUsers(userName) {
+userName = encodeURI(userName);
+$("#" + userName).remove();
+}
+function clearVivoxUsers() {
+$("#VivoxOnlineUsers").empty();
+}
+function vivoxUserSpeaking(userName, isSpeaking) {
+document.getElementById(userName).getElementsByClassName("Speaking")[0].innerHTML = isSpeaking;
+}
+function RaiseHand(userName, isHandRaised) {
+var theDiv = document.getElementById(encodeURI(userName));
+if (theDiv != null) {
+if (isHandRaised == "True") {
+ theDiv.getElementsByClassName("Hand")[0].innerHTML = "<img src="+
+ "Hand.png  height=12px width=12px" + ">";
+}
+else {
+ theDiv.getElementsByClassName("Hand")[0].innerHTML = "";
+}
+}
+}
+-->
+</script>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+$(document).ready(function() {
+//   VivoxInstall();
+//DisplayChatBox("ContractPlaque");
+$('#ChatHistory').hide();
+$('#ToggleChat').hide();
+$('#ToggleChat').click(function() {
+$('#ChatHistory').slideToggle('medium');
+});
+
+
+});
+//]]>
+</script>
 <div id="unityPlayer" style="width: 600px; height: 450px; visibility: visible;">
 	<embed width="600" height="450" type="application/vnd.unity" style="display: block; width: 100%; height: 100%;" tabindex="0" firstframecallback="unityObject.firstFrameCallback();" src={{world.world}}>
 </div>
-{{#each world.plugins}}
-	{{this}}
-	{{#embed this}}{{/embed}}
-{{/each}}
+<div id="room1" class="col-md-2 well">
+    <h2 id="rooms">Room:</h2>
+    <div id="OnlineUsers"></div>
+
+    <div id="opentok" class="well">
+	<div id="devicePanelContainer"></div>
+	<div id="publisherContainer"></div>
+	<div id="streamsContainer"></div>
+    </div>
+</div>

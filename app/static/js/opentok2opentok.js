@@ -26,10 +26,12 @@ function RoomChange(newRoom) {
   console.log('RoomChange: ' + newRoom);
   //If room acutally changes switch
   if (newRoom != currentRoom) {
-    unpublish(currentRoom);
-    sessions[currentRoom].disconnect();
-    sessions[newRoom].connect(apikey, tokens[newRoom]);
+    if(currentRoom!=undefined) {
+	unpublish(currentRoom);
+	sessions[currentRoom].disconnect();
+    }
     currentRoom = newRoom;
+    sessions[newRoom].connect(apikey, tokens[newRoom]);
     $('#rooms').text('Room: ' + currentRoom);
   }
   console.log('RoomChange End');
