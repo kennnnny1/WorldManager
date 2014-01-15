@@ -26,7 +26,8 @@ function subscribeToStreams(streams) {
     width : 128,
     style : {
       nameDisplayMode : 'on'
-    }
+    },
+    subscribeToVideo : 'false'
     };
     //prevent echo
     if(streams[ii].connection.connectionId == sessions[currentRoom].connection.connectionId) {
