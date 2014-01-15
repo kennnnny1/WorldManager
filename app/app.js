@@ -251,11 +251,11 @@ app.post('/', function(req, res, next){
 				});	
 			});
 			newWorld.opentokSessions = {};
-			opentok.createSession('127.0.0.1', {'p2p.preference' : 'disabled' },  function(result) {
+			opentok.createSession('127.0.0.1',  function(result) {
 				newWorld.opentokSessions.management = result;
-				opentok.createSession('127.0.0.1', {'p2p.preference' : 'disable' },  function(result) {
+				opentok.createSession('127.0.0.1',  function(result) {
 					newWorld.opentokSessions.union = result;
-					opentok.createSession('127.0.0.1', {'p2p.preference' : 'disable' },  function(result) {
+					opentok.createSession('127.0.0.1',  function(result) {
 						newWorld.opentokSessions.middle = result;
 						db.collection('worlds').save(newWorld);
 					});
