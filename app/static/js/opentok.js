@@ -22,15 +22,15 @@ function subscribeToStreams(streams) {
     var streamsContainer = document.getElementById('streamsContainer');
     streamsContainer.appendChild(div);
     var subProperties = {
-    height : 100,
-    width : 128,
-    style : {
-      nameDisplayMode : 'on'
+    height: 100,
+    width: 128,
+    style: {
+      nameDisplayMode: 'on'
     },
-    subscribeToVideo : 'false'
+    subscribeToVideo: 'false'
     };
     //prevent echo
-    if(streams[ii].connection.connectionId == sessions[currentRoom].connection.connectionId) {
+    if (streams[ii].connection.connectionId == sessions[currentRoom].connection.connectionId) {
       subProperties.subscribeToAudio = false;
     }
     var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subProperties);  // subscriber.subscribeToVideo(false).subscribeToAudio(true);
@@ -58,23 +58,23 @@ function streamAvailableHandler(event) {
 }
 function unpublish(room) {
   sessions[room].unpublish(publisher);
-  console.log("unpublished: " + room);
+  console.log('unpublished: ' + room);
 }
 function publish(room) {
   sessions[room].publish(publisher);
-  console.log("published: " + room);
+  console.log('published: ' + room);
 }
 function toggleAudio(isEnabled) {
   publisher.publishAudio(isEnabled);
 }
 function connectionDestroyedHandler(event) {
   event.preventDefault();
-  console.log("The session disconnected. " + event.reason);
+  console.log('The session disconnected. ' + event.reason);
 }
 function streamDestroyedHandler(ee) {
   console.log(ee);
   ee.preventDefault();
-  var subscriberDiv = document.getElementById("stream"+ee.streams[0].streamId);
+  var subscriberDiv = document.getElementById('stream'+ ee.streams[0].streamId);
   console.log(subscriberDiv);
   subscriberDiv.parentNode.removeChild(subscriberDiv);
 }

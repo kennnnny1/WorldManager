@@ -1,9 +1,9 @@
 //Vivox functions that could be called by or have been called from unity web player
 var prevRoom = '';
 var session;
-var world = "001";
+var world = '001';
 function initUser(player) {
-  console.log("intiUser: Start");
+  console.log('intiUser: Start');
   console.log(sessions);
   user = player;
   sessions[room].connect(apikey, tokens[room]);
@@ -16,7 +16,7 @@ function initUser(player) {
     width: 1,
     name: user
   };
-  publisher = TB.initPublisher(apikey, "publisherContainer", pubOptions);
+  publisher = TB.initPublisher(apikey, 'publisherContainer', pubOptions);
   console.log('OpenTOK url: ' + '/api/' + '001/' + user + '/' + currentRoom);
   console.log('initUser End: ' + player);
 }
@@ -26,7 +26,7 @@ function RoomChange(newRoom) {
   console.log('RoomChange: ' + newRoom);
   //If room acutally changes switch
   if (newRoom != currentRoom) {
-    if(currentRoom!=undefined) {
+    if (currentRoom != undefined) {
 	unpublish(currentRoom);
 	sessions[currentRoom].disconnect();
     }
