@@ -36,7 +36,6 @@ npm install socket.io
 
 
 Usage:
-cd app
 npm install
 node app.js
 
