@@ -1,3 +1,5 @@
+// This program is an easy way to clear out all uploaded worlds
+
 var config = require('./config'),
 mongojs = require('mongojs'),
 db = mongojs(config.db, ['worlds']),
