@@ -16,6 +16,7 @@ function subscribeToStreams(streams) {
     // Create the div to put the subscriber element in to
     var div = document.createElement('div');
     div.setAttribute('id', 'stream' + streams[ii].streamId);
+    div.setAttribute('class', 'col-md-2');
     var streamsContainer = document.getElementById('streamsContainer');
     streamsContainer.appendChild(div);
     var subProperties = {
