@@ -434,9 +434,9 @@ app.post('/editprofile', function(req, res, next) {
 var tokens = {};
 var sessions = {};
 app.get('/token/:sessionid', function(req, res, next) {
-	console.log(req.route.params.sessionid);
-	if (tokens[req.route.params.sessionid] != null && (tokens[req.route.params.sessionid].timestamp - new Date().getTime()) < 43200000)
+	if (tokens[req.route.params.sessionid] != null && (tokens[req.route.params.sessionid].timestamp - new Date().getTime()) > -43200000)
 	{
+		console.log(tokens[req.route.params.sessionid].timestamp - new Date().getTime());
 		res.send(tokens[req.route.params.sessionid]);
 	}
 	else
@@ -457,7 +457,7 @@ server.listen(port);
 io.sockets.on('connection', function(socket) {
 	socket.on('generateToken', function(data, fn) {
 		//43200000 is 12 hours in milliseconds i.e. the time for a token to expire in milliseconds
-		if (tokens[data.session] != null && (tokens[data.session].timestamp - new Date().getTime()) < 43200000)
+		if (tokens[data.session] != null && (tokens[data.session].timestamp - new Date().getTime()) > -43200000)
 		{
 			fn(tokens[data.session]);
 		}
