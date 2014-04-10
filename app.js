@@ -434,6 +434,7 @@ app.post('/editprofile', function(req, res, next) {
 var tokens = {};
 var sessions = {};
 app.get('/token/:sessionid', function(req, res, next) {
+	//43200000 is 12 hours in milliseconds i.e. the time for a token to expire in milliseconds
 	if (tokens[req.route.params.sessionid] != null && (tokens[req.route.params.sessionid].timestamp - new Date().getTime()) > -43200000)
 	{
 		console.log(tokens[req.route.params.sessionid].timestamp - new Date().getTime());
