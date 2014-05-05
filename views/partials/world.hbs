@@ -77,8 +77,10 @@ console.log("Joining:" + room);
 <script type="text/javascript">
 //<![CDATA[
 
-
-
+//request from unity to get name of smartfox room
+function GetUnityRoom() {
+   GetUnity().SendMessage("Init", "Init", "RoomOne");
+}
 $(document).ready(function() {
 //   VivoxInstall();
 //DisplayChatBox("ContractPlaque");
