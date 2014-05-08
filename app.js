@@ -229,37 +229,43 @@ app.post('/', function(req, res, next) {
 		var extension = path.extname(req.files.build.name);
 		if (extension == '.unity3d') {
 			newWorld = req.body;
-			newWorld.id = path.basename(req.files.build.path);
-			newWorld.world = '/builds/'+ newWorld.id + '/'+ req.files.build.name;
-			newWorld.img = '/builds/'+ newWorld.id + '/img/'+ req.files.image.name;
-			newWorld.href = '/world/'+ newWorld.id;
-			newWorld.user = req.user.identifier;
-			createPath(__dirname + '/builds/'+ newWorld.id + '/img/', function(done) {
-				fs.readFile(req.files.build.path, function(err, data) {
+			newWorld.id = req.body.name;;
+			fs.exists(__dirname+ '/builds/' + newWorld.id, function (exists) {
+				if(exists) {
+					res.send('World already exits with that name!');
+				} else {
+					newWorld.world = '/builds/'+ newWorld.id + '/'+ req.files.build.name;
+					newWorld.img = '/builds/'+ newWorld.id + '/img/'+ req.files.image.name;
+					newWorld.href = '/world/'+ newWorld.id;
+					newWorld.user = req.user.identifier;
+					createPath(__dirname + '/builds/'+ newWorld.id + '/img/', function(done) {
+						fs.readFile(req.files.build.path, function(err, data) {
 
-					fs.writeFile(__dirname + '/builds/'+ newWorld.id + '/'+ req.files.build.name, data, function(err) {
+							fs.writeFile(__dirname + '/builds/'+ newWorld.id + '/'+ req.files.build.name, data, function(err) {
 
-						if (err) throw err;
-						res.redirect('/');
+								if (err) throw err;
+								res.redirect('/');
+							});
+						});
+						fs.readFile(req.files.image.path, function(err, data) {
+
+							fs.writeFile(__dirname + '/builds/'+ newWorld.id + '/img/'+ req.files.image.name, data, function(err) {
+								if (err) throw err;
+							});
+						});
 					});
-				});
-				fs.readFile(req.files.image.path, function(err, data) {
-
-					fs.writeFile(__dirname + '/builds/'+ newWorld.id + '/img/'+ req.files.image.name, data, function(err) {
-						if (err) throw err;
-					});
-				});
-			});
-			newWorld.opentokSessions = {};
-			opentok.createSession('127.0.0.1', function(result) {
-				newWorld.opentokSessions.management = result;
-				opentok.createSession('127.0.0.1', function(result) {
-					newWorld.opentokSessions.union = result;
+					newWorld.opentokSessions = {};
 					opentok.createSession('127.0.0.1', function(result) {
-						newWorld.opentokSessions.middle = result;
-						db.collection('worlds').save(newWorld);
+						newWorld.opentokSessions.management = result;
+						opentok.createSession('127.0.0.1', function(result) {
+							newWorld.opentokSessions.union = result;
+							opentok.createSession('127.0.0.1', function(result) {
+								newWorld.opentokSessions.middle = result;
+								db.collection('worlds').save(newWorld);
+							});
+						});
 					});
-				});
+				}
 			});
 		}
 		else
