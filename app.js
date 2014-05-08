@@ -229,7 +229,8 @@ app.post('/', function(req, res, next) {
 		var extension = path.extname(req.files.build.name);
 		if (extension == '.unity3d') {
 			newWorld = req.body;
-			newWorld.id = req.body.name;;
+			if(req.body.nickname.match(/^[^<>%$/? ]*$/)==null) res.send("Invalid url nickname"); //check if the url nickname has any invalid characters
+			newWorld.id = req.body.nickname;
 			fs.exists(__dirname+ '/builds/' + newWorld.id, function (exists) {
 				if(exists) {
 					res.send('World already exits with that name!');
