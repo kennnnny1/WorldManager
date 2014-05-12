@@ -5,7 +5,7 @@ var express = require('express')
   , request = require('request')
   , app = express()
   , server = require('http').createServer(app)
-  , fs = require('fs')
+  , fs = require('fs-extra')
   , passport = require('passport')
   , GoogleStrategy = require('passport-google').Strategy
 , path = require('path')
@@ -278,6 +278,45 @@ app.post('/', function(req, res, next) {
 	{
 		res.redirect('/login');
 	}
+});
+
+//create a world from one of the supported templates
+app.post('/template', function(req, res, next) {
+  if(req.isAuthenticated()) {
+    var templateName = req.body.templateName;
+    fs.exists(__dirname+'/buildTemplates/'+templateName, function (exists) {
+      if(exists) {
+	//TODO: make this into a more generic function for just copying folders
+	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds'+req.body.nickname, function(err){ 
+	  if(err) req.send(err);
+	  var newWorld = req.body;
+	  newWorld.id = req.body.nickname;
+	  newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
+	  newWorld.img = '/builds/'+ newWorld.id + '/img/logo.png';
+	  newWorld.href = '/world/'+ newWorld.id;
+	  newWorld.user = req.user.identifier;
+	  newWorld.opentokSessions = {};
+	  opentok.createSession('127.0.0.1', function(result) {
+	    newWorld.opentokSessions.management = result;
+	    opentok.createSession('127.0.0.1', function(result) {
+	      newWorld.opentokSessions.union = result;
+	      opentok.createSession('127.0.0.1', function(result) {
+	        newWorld.opentokSessions.middle = result;
+	        db.collection('worlds').save(newWorld, function(err) {
+		  res.redirect('/');
+		});
+	      });
+            });
+	  });
+	  
+	});
+      } else {
+        res.send('Invalid template selected.');
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/login' }));
