@@ -287,8 +287,8 @@ app.post('/template', function(req, res, next) {
     fs.exists(__dirname+'/buildTemplates/'+templateName, function (exists) {
       if(exists) {
 	//TODO: make this into a more generic function for just copying folders
-	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds'+req.body.nickname, function(err){ 
-	  if(err) req.send(err);
+	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds/'+req.body.nickname, function(err){ 
+	  if(err) res.send(err);
 	  var newWorld = req.body;
 	  newWorld.id = req.body.nickname;
 	  newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
