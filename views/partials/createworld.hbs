@@ -1,8 +1,17 @@
-<h3>Under Development</h3>
 <h1>Create World</h1>
-<h3>Templates</h3>
-<p>
-	Click a template to see the world. <br>
-	If you like it you can instantly start editing, be sure to save it when you're done!<br> 
-	If you don't like it juse come back here and choose another template.<br>
-</p>
+{{#if isAuthenticated}}
+	<form action="/template" method="post" enctype="multipart/form-data">
+		<p>Name : <br> <input type=text name=name></input></p>
+		<p>Nickname : <br> <input type=text name=nickname></input></p>
+		<p>Info : <br> <textarea rows="4" <input type=textarea name=info></textarea></p>
+		<p>Template :</p>
+		<label class="radio">
+			<input type="radio" name="templateName" value="NegotiationScenario" checked="checked">
+				<img src="/img/NegotiationScenario.png"/>
+			</input>
+		</label>
+		<p><input type="Submit" name="Submit" value="Submit"></p>
+	</form>
+{{else}}
+	{{> login}}
+{{/if}}
