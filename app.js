@@ -1,4 +1,11 @@
 var express = require('express')
+  , bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser')
+  , methodOverride = require('method-override')
+  , morgan = require('morgan')
+  , errorHandler = require('errorhandler')
+  , serveStatic = require('serve-static')
+  , session = require('express-session')
   , util = require('util')
   , cons = require('consolidate')
   , Handlebars = require('handlebars')
@@ -8,17 +15,17 @@ var express = require('express')
   , fs = require('fs-extra')
   , passport = require('passport')
   , GoogleStrategy = require('passport-google').Strategy
-, path = require('path')
+  , path = require('path')
   , config = require('./config')
   , net = require('net')
   , mongojs = require('mongojs')
   , db = mongojs(config.db, ['users', 'worlds'])
-  , MongoStore = require('connect-mongo')(express)
+  , MongoStore = require('connect-mongo')(session)
   , sessionStore = new MongoStore({db: 'Session'})
   , editor = require('./editor')
   , defaultHandlebars = require('./defaultHandlebars')
   , OpenTok = require('opentok')
-  , opentok = new OpenTok.OpenTokSDK(config.opentokapi, config.opentoksecret)
+  , opentok = new OpenTok(config.opentokapi, config.opentoksecret)
   , io = require('socket.io').listen(server);
 var secret = 'keyboard cat';
 passport.serializeUser(function(user, done) {
@@ -89,18 +96,14 @@ function createPath(path, done)
 
 	}
 }
-app.configure('development', function() {
+if(!process.env.NODE_ENV || process.env.NODE_ENV == 'development') {
 	console.log('Using devlopment version');
-	app.use(express.logger('dev'));
-	app.use(express.errorHandler({
+	app.use(morgan('dev'));
+	app.use(errorHandler({
 		dumpExceptions: true,
 		showStack: true
 	}));
-});
-
-app.configure('production', function() {
-	console.log('Using production version');
-});
+}
 
 // set .hbs as the default extension
 app.set('view engine', 'hbs');
@@ -108,16 +111,14 @@ app.engine('hbs', cons.handlebars);
 app.set('views', __dirname + '/views');
 app.set('view options', {layout: false});
 app.use('/builds', express.static(__dirname + '/builds'));
-app.use(express.static(__dirname + '/static'));
-app.use(express.cookieParser());
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.session({ secret: secret, store: sessionStore, cookie: { path: '/', httpOnly: false, maxAge: 14400000 }}));
+app.use(serveStatic(__dirname + '/static'));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(session({ secret: secret, store: sessionStore, cookie: { path: '/', httpOnly: false, maxAge: 14400000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(defaultHandlebars);
-app.use(app.router);
-app.use(editor);
 //handlebars partials and helpers
 var partialsDir = __dirname + '/views/partials';
 
@@ -497,6 +498,7 @@ app.get('/token/:sessionid', function(req, res, next) {
 		res.send(tokens[req.route.params.sessionid]);
 	}
 });
+app.use(editor);
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);
