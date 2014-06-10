@@ -1,5 +1,6 @@
 var express = require('express')
   , bodyParser = require('body-parser')
+  , multiparty = require('connect-multiparty')
   , cookieParser = require('cookie-parser')
   , methodOverride = require('method-override')
   , morgan = require('morgan')
@@ -114,6 +115,7 @@ app.use('/builds', express.static(__dirname + '/builds'));
 app.use(serveStatic(__dirname + '/static'));
 app.use(cookieParser());
 app.use(bodyParser());
+app.use(multiparty());
 app.use(methodOverride());
 app.use(session({ secret: secret, store: sessionStore, cookie: { path: '/', httpOnly: false, maxAge: 14400000 }}));
 app.use(passport.initialize());
