@@ -196,7 +196,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/world/:id', function(req, res) {
-	db.collection('worlds').find({id: req.route.params.id}, function(err, docs) {
+	db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 		if (docs.length != 0)
 		{
 			req.hbs.world = docs[0];
@@ -208,12 +208,12 @@ app.get('/world/:id', function(req, res) {
 				}
 
 			}
-			if (fs.existsSync(__dirname + '/builds/'+ req.route.params.id + '/world.hbs')) //switch to custom hbs if they made one
+			if (fs.existsSync(__dirname + '/builds/'+ req.params.id + '/world.hbs')) //switch to custom hbs if they made one
 			{
-				req.hbs.path = __dirname + '/builds/'+ req.route.params.id + '/world.hbs';
+				req.hbs.path = __dirname + '/builds/'+ req.params.id + '/world.hbs';
 			}
 			console.log(req.hbs);
-			req.hbs.identifier = req.route.params.id;
+			req.hbs.identifier = req.params.id;
 			res.render('root', req.hbs);
 		}
 		else
@@ -365,7 +365,7 @@ app.get('/editworld/:id', function(req, res, next) {
 	if (req.isAuthenticated())
 	{
 		var query = {
-			'id' : req.route.params.id,
+			'id' : req.params.id,
 			'user' : req.user.identifier
 		};
 		db.collection('worlds').find(query, function(err, docs) {
@@ -381,7 +381,7 @@ app.get('/editworld/:id', function(req, res, next) {
 app.post('/editpage/:id', function(req, res, next) {
 	if (req.isAuthenticated())
 	{
-		db.collection('worlds').find({id: req.route.params.id}, function(err, docs) {
+		db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 			if (req.user.identifier == docs[0].user)
 			{
 				console.log(req.files);
@@ -400,19 +400,19 @@ app.post('/editpage/:id', function(req, res, next) {
 app.get('/editpage/:id', function(req, res, next) {
 	if (req.isAuthenticated())
 	{
-		db.collection('worlds').find({id: req.route.params.id}, function(err, docs) {
+		db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 			if (docs[0].user && req.user.identifier == docs[0].user)
 			{
-				fs.exists(__dirname + '/builds/'+ req.route.params.id + '/world.hbs', function(exists)
+				fs.exists(__dirname + '/builds/'+ req.params.id + '/world.hbs', function(exists)
 				{
 					if (!exists)
 					{
 						//ensure the proper path exists, and copy the file to it
-						createPath(__dirname + '/builds/'+ req.route.params.id, function() {fs.createReadStream(partialsDir + '/world.hbs').pipe(fs.createWriteStream(__dirname + '/builds/'+ req.route.params.id + '/world.hbs'))});
+						createPath(__dirname + '/builds/'+ req.params.id, function() {fs.createReadStream(partialsDir + '/world.hbs').pipe(fs.createWriteStream(__dirname + '/builds/'+ req.params.id + '/world.hbs'))});
 					}
 				});
-				req.hbs.pathToPartial = config.url + ':'+ config.port + '/builds/'+ req.route.params.id + '/world.hbs';
-				req.hbs.identifier = req.route.params.id;
+				req.hbs.pathToPartial = config.url + ':'+ config.port + '/builds/'+ req.params.id + '/world.hbs';
+				req.hbs.identifier = req.params.id;
 				res.render('root', req.hbs);
 			}
 			else
@@ -432,7 +432,7 @@ app.post('/edit/:id', function(req, res, next) {
 		return;
 	}
 	var query = {
-		'id' : req.route.params.id,
+		'id' : req.params.id,
 		user: req.user.identifier
 	};
 	db.collection('worlds').update(query, {$set: req.params});
@@ -448,7 +448,7 @@ app.get('/deleteworld/:id', function(req, res, next) {
 		return;
 	}
 	var query = {
-		'id' : req.route.params.id,
+		'id' : req.params.id,
 		'user' : req.user.identifier
 	};
 	db.collection('worlds').find(query, function(err, docs) {
@@ -482,20 +482,20 @@ var tokens = {};
 var sessions = {};
 app.get('/token/:sessionid', function(req, res, next) {
 	//43200000 is 12 hours in milliseconds i.e. the time for a token to expire in milliseconds
-	if (tokens[req.route.params.sessionid] != null && (tokens[req.route.params.sessionid].timestamp - new Date().getTime()) > -43200000)
+	if (tokens[req.params.sessionid] != null && (tokens[req.params.sessionid].timestamp - new Date().getTime()) > -43200000)
 	{
-		console.log(tokens[req.route.params.sessionid].timestamp - new Date().getTime());
-		res.send(tokens[req.route.params.sessionid]);
+		console.log(tokens[req.params.sessionid].timestamp - new Date().getTime());
+		res.send(tokens[req.params.sessionid]);
 	}
 	else
 	{
-		tokens[req.route.params.sessionid] = {};
-		tokens[req.route.params.sessionid].session = opentok.generateToken({
-			session_id: req.route.params.sessionid,
-			role: OpenTok.RoleConstants.PUBLISHER
+		tokens[req.params.sessionid] = {};
+		tokens[req.params.sessionid].session = opentok.generateToken({
+			session_id: req.params.sessionid,
+			role: "publisher"
 		});
-		tokens[req.route.params.sessionid].timestamp = new Date().getTime();
-		res.send(tokens[req.route.params.sessionid]);
+		tokens[req.params.sessionid].timestamp = new Date().getTime();
+		res.send(tokens[req.params.sessionid]);
 	}
 });
 app.use(editor);
