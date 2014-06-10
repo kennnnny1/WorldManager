@@ -259,11 +259,11 @@ app.post('/', function(req, res, next) {
 						});
 					});
 					newWorld.opentokSessions = {};
-					opentok.createSession('127.0.0.1', function(result) {
+					opentok.createSession({'location': '127.0.0.1'}, function(result) {
 						newWorld.opentokSessions.management = result;
-						opentok.createSession('127.0.0.1', function(result) {
+						opentok.createSession({'location':'127.0.0.1'}, function(result) {
 							newWorld.opentokSessions.union = result;
-							opentok.createSession('127.0.0.1', function(result) {
+							opentok.createSession({'location' : '127.0.0.1'}, function(result) {
 								newWorld.opentokSessions.middle = result;
 								db.collection('worlds').save(newWorld);
 							});
@@ -492,8 +492,7 @@ app.get('/token/:sessionid', function(req, res, next) {
 	else
 	{
 		tokens[req.params.sessionid] = {};
-		tokens[req.params.sessionid].session = opentok.generateToken({
-			session_id: req.params.sessionid,
+		tokens[req.params.sessionid].session = opentok.generateToken(req.params.sessionid, {
 			role: "publisher"
 		});
 		tokens[req.params.sessionid].timestamp = new Date().getTime();
