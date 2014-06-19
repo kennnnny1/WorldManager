@@ -23,7 +23,6 @@ var express = require('express')
   , db = mongojs(config.db, ['users', 'worlds'])
   , MongoStore = require('connect-mongo')(session)
   , sessionStore = new MongoStore({db: 'Session'})
-  , editor = require('./editor')
   , defaultHandlebars = require('./defaultHandlebars')
   , OpenTok = require('opentok')
   , opentok = new OpenTok(config.opentokapi, config.opentoksecret)
@@ -499,7 +498,8 @@ app.get('/token/:sessionid', function(req, res, next) {
 		res.send(tokens[req.params.sessionid]);
 	}
 });
-app.use(editor);
+
+app.use('/builds/', require('./routes/builds'));
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);
