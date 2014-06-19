@@ -29,7 +29,7 @@ editor.route('/:id')
   .put(function(req, res, next) {
     if (req.isAuthenticated())
     {
-      db.collection('worlds').find({id: parsedUrl[2]}, function(err, docs) {
+      db.collection('worlds').find({id: req.params.id}, function(err, docs) {
         if (req.user.identifier == docs[0].user)
         {
           var directory = req.url.substring(0, req.url.lastIndexOf('/'));
@@ -53,7 +53,7 @@ editor.route('/:id')
   .delete(function(req, res, next) {
     if (req.isAuthenticated())
     {
-      db.collection('worlds').find({id: parsedUrl[2]}, function(err, docs) {
+      db.collection('worlds').find({id: req.params.id}, function(err, docs) {
         if (req.user.identifier == docs[0].user)
         {
           if (fs.statSync(__dirname + req.url).isDirectory())
