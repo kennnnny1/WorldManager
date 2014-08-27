@@ -302,7 +302,7 @@ app.post('/template', function(req, res, next) {
 	    newWorld.opentokSessions.management = result;
 	    opentok.createSession({location: '127.0.0.1'}, function(result) {
 	      newWorld.opentokSessions.union = result;
-	      opentok.createSession({location: '127.0.0.1'}', function(result) {
+	      opentok.createSession({location: '127.0.0.1'}, function(result) {
 	        newWorld.opentokSessions.middle = result;
 	        db.collection('worlds').save(newWorld, function(err) {
 		  res.redirect('/');
