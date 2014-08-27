@@ -298,11 +298,11 @@ app.post('/template', function(req, res, next) {
 	  newWorld.href = '/world/'+ newWorld.id;
 	  newWorld.user = req.user.identifier;
 	  newWorld.opentokSessions = {};
-	  opentok.createSession('127.0.0.1', function(result) {
+	  opentok.createSession({location: '127.0.0.1'}, function(result) {
 	    newWorld.opentokSessions.management = result;
-	    opentok.createSession('127.0.0.1', function(result) {
+	    opentok.createSession({location: '127.0.0.1'}, function(result) {
 	      newWorld.opentokSessions.union = result;
-	      opentok.createSession('127.0.0.1', function(result) {
+	      opentok.createSession({location: '127.0.0.1'}', function(result) {
 	        newWorld.opentokSessions.middle = result;
 	        db.collection('worlds').save(newWorld, function(err) {
 		  res.redirect('/');
