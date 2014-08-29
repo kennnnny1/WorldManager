@@ -1,0 +1,178 @@
+.navcontainer{
+    background-color: #333333;
+    padding:10px;
+    height: 40px;
+}
+.navlist{
+    float:left;
+}
+
+.redbackground{
+    background-image: url("/img/rutgersHeaderBackground.png");
+    background-repeat: no-repeat;
+    background-color: #CA072D;
+    margin-bottom: -80px;
+}
+
+h1 small{
+    color:lightgrey;
+}
+
+
+
+.navlist .last{
+    display:inline;1
+    list-style-type: none;
+    padding-left: 8px;
+    color:white;
+    font-family: 'Titillium Web', sans-serif;
+    text-align:left;
+}
+
+.navlist .first{
+    display:inline;
+    list-style-type: none;
+    padding-right: 8px;
+    color:white;
+    font-family: 'Titillium Web', sans-serif;
+    text-align:left;
+    border-right-color: rgb(255, 255, 255);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(255, 255, 255);
+}
+
+.navlist .leaf{
+    display:inline;
+    list-style-type: none;
+    padding-right: 8px;
+    padding-left:8px;
+    color:white;
+    font-family: 'Titillium Web', sans-serif;
+    text-align:left;
+    border-right-color: rgb(255, 255, 255);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(255, 255, 255);
+}
+
+.navlist .logout{
+    display: inline;
+    text-align: right;
+
+}
+.container{
+    padding-left: 0px;
+    padding-right: 0px;
+    max-width: none;
+}
+
+.navlist * a{
+    text-decoration: none;
+    color: white;
+}
+
+
+
+
+body{
+    padding-top: 0px;
+}
+
+.logout{
+    float:right;
+    clear:right;
+
+}
+
+.logout a{
+      text-decoration: none;
+    color:white;
+
+}
+
+
+a:hover{
+    text-decoration: underline;
+}
+
+.jumbotron{
+    background-color: transparent;1
+}
+
+.jumbotron * h1{
+    color:white;
+}
+
+.btn-toolbar{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.well{
+    border: none;
+    background-color: transparent;
+    margin-top: 0px;
+    margin-right: 8px;
+    margin-bottom: 0px;
+    margin-left: 8px;
+    text-align: left;
+
+
+}
+
+.well li{
+    border-bottom: 1px solid lightgrey;
+
+}
+
+.well li a{
+    text-decoration: none;
+    color:#787878;
+    padding:0px;
+    font-size:100%;
+    list-style-type: none;
+    list-style-position: outside;
+    list-style-image: none;
+
+
+}
+
+.well * a:hover{
+    text-decoration: underline;
+}
+
+.nav-pills > li.active > a{
+    background-color: transparent;
+    color: #CF1028;
+
+    background-image: url(/img/red-arrow.png);
+    background-position-x: 100%;
+    background-position-y: 50%;
+    background-size: initial;
+    background-repeat-x: no-repeat;
+    background-repeat-y: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(246, 247, 242);
+}
+
+.padding{
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+.btn-danger{
+    background-color: #990000;
+    border-radius: 0px;
+    border-color:transparent;
+}
+
+#ourNav{
+
+    background-color: #990000;
+    padding: 8px;
+    display: inline-block;
+}
+
