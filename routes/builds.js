@@ -10,7 +10,7 @@ editor.route('/:id')
   .all(function(req, res, next) {
     if(!fs.existsSync(__dirname+"/../builds/"+req.params.id)) {
       res.send(404);
-    };   
+    };
     next();
   })
   .get(function(req, res, next) {
@@ -82,7 +82,7 @@ editor.route('/:id')
       res.send(403);
     }
   })
-  
+
 //helper functions
 function gendir(path)
 {

@@ -1,0 +1,20 @@
+<h1>Admin</h1>
+
+{{#if true}}
+    <form action="/admin/submit" method="get">
+
+
+        {{#each preview}}
+
+            <input name={{this._id}} type="checkbox" {{bind-attr checked="featured"}}> {{this.name}}, {{this.info}} </input>
+            </br>
+        {{/each}}
+
+
+
+        <p><input type="Submit"></p>
+    </form>
+{{else}}
+    {{> login}}
+{{/if}}
+
