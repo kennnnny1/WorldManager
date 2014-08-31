@@ -1,17 +1,10 @@
-<h1>Admin</h1>
-
-{{#if true}}
-    <form action="/admin/submit" method="get">
-
-
+{{#if isAuthenticated}}
+    <h1>Admin</h1>
+    <form action="/admin" method="post" enctype="multipart/form-data">
         {{#each preview}}
-
             <input name={{this._id}} type="checkbox" {{bind-attr checked="featured"}}> {{this.name}}, {{this.info}} </input>
             </br>
         {{/each}}
-
-
-
         <p><input type="Submit"></p>
     </form>
 {{else}}

@@ -242,14 +242,14 @@ app.get('/world/:id', function(req, res) {
 
 });
 
-app.get('/admin/submit', function(req,res,next){
+app.post('/admin', function(req,res,next){
+    if(req.isAuthenticated){
         db.worlds.update({},{$set:{'featured':false}},{multi:true});
-
-        for(change in req.query){
-            db.worlds.update({"_id": new db.ObjectId(change)},{$set:{'featured':true}});
+        for(change in req.body){
+                db.worlds.update({"_id": new db.ObjectId(change)},{$set:{'featured':true}});
         }
         res.redirect("/")
-
+    }
 });
 
 app.post('/', function(req, res, next) {
@@ -285,7 +285,7 @@ app.post('/', function(req, res, next) {
 						});
 					});
                     newWorld.featured = false;
-					newWorld.opentokSessions = {};
+					newWorld.opentokaSessions = {};
 					opentok.createSession({'location': '127.0.0.1'}, function(result) {
 						newWorld.opentokSessions.management = result;
 						opentok.createSession({'location':'127.0.0.1'}, function(result) {
