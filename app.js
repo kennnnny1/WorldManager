@@ -208,11 +208,11 @@ app.get('/admin',function(req, res){
         req.hbs.preview = docs;
         req.hbs.path = partialsDir + '/admin.hbs';
         res.render('root', req.hbs)
-
-
     });
 });
 app.get('/world/:id', function(req, res) {
+    //we're encoding uri's now so they have to be decoded.
+    req.params.id = decodeURIComponent(req.params.id)
 	db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 		if (docs.length != 0)
 		{
@@ -322,9 +322,11 @@ app.post('/template', function(req, res, next) {
 	  var newWorld = req.body;
 
 	  newWorld.id = req.body.nickname;
+
 	  newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
-	  newWorld.img = '/builds/'+ newWorld.id + '/img/logo.png';
-	  newWorld.href = '/world/'+ newWorld.id;
+
+	  newWorld.img = '/builds/'+ encodeURIComponent(newWorld.id) + '/img/logo.png';
+	  newWorld.href = '/world/'+ encodeURIComponent(newWorld.id);
 	  newWorld.user = req.user.identifier;
       newWorld.featured = false;
 	  newWorld.opentokSessions = {};
