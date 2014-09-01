@@ -2,7 +2,11 @@
     <h1>Admin</h1>
     <form action="/admin" method="post" enctype="multipart/form-data">
         {{#each preview}}
-            <input name={{this._id}} type="checkbox" {{bind-attr checked="featured"}}> {{this.name}}, {{this.info}} </input>
+            {{#if this.featured}}
+                <input name={{this._id}} type="checkbox" checked> {{this.name}}, {{this.info}} </input>
+            {{else}}
+                <input name={{this._id}} type="checkbox"> {{this.name}}, {{this.info}} </input>
+            {{/if}}
             </br>
         {{/each}}
         <p><input type="Submit"></p>
