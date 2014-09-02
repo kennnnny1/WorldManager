@@ -27,7 +27,6 @@ h1 small{
 
 .worldDesc:hover {
   text-overflow: none;
-  white-space: inherit;
   overflow: visible;
 }
 .navlist .last{
