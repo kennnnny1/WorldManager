@@ -187,7 +187,15 @@ Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
     }
 });
 
-app.get('/', function(req, res) {
+app.get('/',function(req, res){
+    db.collection('worlds').find({'featured':true}, function(err,docs){
+        req.hbs.preview = docs;
+        req.hbs.path = partialsDir + '/featured.hbs';
+        res.render('root', req.hbs);
+    });
+});
+
+app.get('/home', function(req, res) {
 	db.collection('worlds').find(function(err, docs) { //grab the info from mongodb about the worlds that we have to render, and then display them on the page
 		req.hbs.preview = docs;
 		req.hbs.path = partialsDir + '/home.hbs';
@@ -195,8 +203,16 @@ app.get('/', function(req, res) {
 	});
 
 });
-
+app.get('/admin',function(req, res){
+    db.collection('worlds').find(function(err , docs){
+        req.hbs.preview = docs;
+        req.hbs.path = partialsDir + '/admin.hbs';
+        res.render('root', req.hbs)
+    });
+});
 app.get('/world/:id', function(req, res) {
+    //we're encoding uri's now so they have to be decoded.
+    req.params.id = decodeURIComponent(req.params.id)
 	db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 		if (docs.length != 0)
 		{
@@ -223,6 +239,17 @@ app.get('/world/:id', function(req, res) {
 			res.render('root', req.hbs);
 		}
 	});
+
+});
+
+app.post('/admin', function(req,res,next){
+    if(req.isAuthenticated){
+        db.worlds.update({},{$set:{'featured':false}},{multi:true});
+        for(change in req.body){
+                db.worlds.update({"_id": new db.ObjectId(change)},{$set:{'featured':true}});
+        }
+        res.redirect("/")
+    }
 });
 
 app.post('/', function(req, res, next) {
@@ -257,7 +284,8 @@ app.post('/', function(req, res, next) {
 							});
 						});
 					});
-					newWorld.opentokSessions = {};
+                    newWorld.featured = false;
+					newWorld.opentokaSessions = {};
 					opentok.createSession({'location': '127.0.0.1'}, function(result) {
 						newWorld.opentokSessions.management = result;
 						opentok.createSession({'location':'127.0.0.1'}, function(result) {
@@ -289,14 +317,18 @@ app.post('/template', function(req, res, next) {
     fs.exists(__dirname+'/buildTemplates/'+templateName, function (exists) {
       if(exists) {
 	//TODO: make this into a more generic function for just copying folders
-	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds/'+req.body.nickname, function(err){ 
+	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds/'+req.body.nickname, function(err){
 	  if(err) res.send(err);
 	  var newWorld = req.body;
+
 	  newWorld.id = req.body.nickname;
+
 	  newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
-	  newWorld.img = '/builds/'+ newWorld.id + '/img/logo.png';
-	  newWorld.href = '/world/'+ newWorld.id;
+
+	  newWorld.img = '/builds/'+ encodeURIComponent(newWorld.id) + '/img/logo.png';
+	  newWorld.href = '/world/'+ encodeURIComponent(newWorld.id);
 	  newWorld.user = req.user.identifier;
+      newWorld.featured = false;
 	  newWorld.opentokSessions = {};
 	  opentok.createSession({location: '127.0.0.1'}, function(result) {
 	    newWorld.opentokSessions.management = result;
@@ -310,7 +342,7 @@ app.post('/template', function(req, res, next) {
 	      });
             });
 	  });
-	  
+
 	});
       } else {
         res.send('Invalid template selected.');
@@ -343,6 +375,8 @@ app.get('/auth/google/return', function(req, res, next) {
     res.redirect(redirectUrl);
   })(req, res, next);
 });
+
+
 
 app.get('/myworlds', function(req, res, next) {
 		if (req.isAuthenticated())
