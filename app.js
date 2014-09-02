@@ -533,7 +533,7 @@ app.get('/token/:sessionid', function(req, res, next) {
 	}
 });
 
-app.use('/builds/', require('./routes/builds'));
+app.use('/builds', require('./routes/builds'));
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);

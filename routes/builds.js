@@ -6,14 +6,13 @@ db = mongojs(config.db, ['users', 'worlds']);
 
 var editor = express.Router();
 
-editor.route('/:id')
-  .all(function(req, res, next) {
-    if(!fs.existsSync(__dirname+"/../builds/"+req.params.id)) {
-      res.send(404);
-    };
-    next();
-  })
-  .get(function(req, res, next) {
+editor.use(function(req,res, next) {
+  req.params.id=req.path;
+  console.log(req.params.id);
+  if(!fs.existsSync(__dirname+"/../builds/"+req.params.id)) {
+    res.send(404);
+  };
+  if(req.method=="GET") {
     console.log("get");
     if (fs.statSync(__dirname + "/../builds/"+req.params.id).isDirectory())
     {
@@ -25,8 +24,8 @@ editor.route('/:id')
     {
       next();
     }
-  })
-  .put(function(req, res, next) {
+  }
+  else if(req.method=="PUT") {
     if (req.isAuthenticated())
     {
       db.collection('worlds').find({id: req.params.id}, function(err, docs) {
@@ -49,8 +48,8 @@ editor.route('/:id')
     {
       res.send(403);
     }
-  })
-  .delete(function(req, res, next) {
+  }
+  else if(req.method=="DELETE") {
     if (req.isAuthenticated())
     {
       db.collection('worlds').find({id: req.params.id}, function(err, docs) {
@@ -81,7 +80,8 @@ editor.route('/:id')
     {
       res.send(403);
     }
-  })
+  }
+});
 
 //helper functions
 function gendir(path)
