@@ -327,7 +327,7 @@ app.post('/', function(req, res, next) {
 						});
 					});
                     newWorld.featured = false;
-					newWorld.opentokaSessions = {};
+					newWorld.opentokSessions = {};
 					opentok.createSession({'location': '127.0.0.1'}, function(result) {
 						newWorld.opentokSessions.management = result;
 						opentok.createSession({'location':'127.0.0.1'}, function(result) {
@@ -354,6 +354,11 @@ app.post('/', function(req, res, next) {
 
 //create a world from one of the supported templates
 app.post('/template', function(req, res, next) {
+    if(req.files.build.name.length > 0){
+        res.redirect(307,"/")
+        return;
+    }
+
   if(req.isAuthenticated()) {
     var templateName = req.body.templateName;
     fs.exists(__dirname+'/buildTemplates/'+templateName, function (exists) {
@@ -379,7 +384,7 @@ app.post('/template', function(req, res, next) {
 	      opentok.createSession({location: '127.0.0.1'}, function(result) {
 	        newWorld.opentokSessions.middle = result;
 	        db.collection('worlds').save(newWorld, function(err) {
-		  res.redirect('/');
+		  //res.redirect('/');
 		});
 	      });
             });
