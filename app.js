@@ -285,7 +285,7 @@ app.post('/', function(req, res, next) {
 						});
 					});
                     newWorld.featured = false;
-					newWorld.opentokaSessions = {};
+					newWorld.opentokSessions = {};
 					opentok.createSession({'location': '127.0.0.1'}, function(err, result) {
 						newWorld.opentokSessions.management = result.sessionId;
 						opentok.createSession({'location':'127.0.0.1'}, function(err, result) {

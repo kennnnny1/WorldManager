@@ -7,6 +7,10 @@
     float:left;
 }
 
+ul {
+  list-style-type:none;
+}
+
 .redbackground{
     background-image: url("/img/rutgersHeaderBackground.png");
     background-repeat: no-repeat;

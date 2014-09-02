@@ -52,16 +52,17 @@ editor.use(function(req,res, next) {
   else if(req.method=="DELETE") {
     if (req.isAuthenticated())
     {
-      db.collection('worlds').find({id: req.params.id}, function(err, docs) {
+      var worldid = req.params.id.split('/')[1];
+      db.collection('worlds').find({id: worldid}, function(err, docs) {
         if (req.user.identifier == docs[0].user)
         {
-          if (fs.statSync(__dirname + req.url).isDirectory())
+          if (fs.statSync(__dirname + "/../builds/"+req.url).isDirectory())
           {
             deleteFolderRecursive(__dirname + req.url);
           }
           else
           {
-            fs.unlink(__dirname + req.url, function(err)
+            fs.unlink(__dirname + "/../builds/"+req.url, function(err)
             {
               if (err)
                  res.send(err);

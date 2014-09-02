@@ -1,7 +1,7 @@
 {{#each files}}
 {{#if this.isDirectory}}
-	<li>{{this.name}}<ul id="{{this.path}}" onClick=getDir(this,'{{this.path}}')>></ul></li>
+	<li>{{this.name}}<ul class="nobullets" id="{{this.path}}" onClick=getDir(this,'{{this.path}}')>></ul></li>
 {{else}}
-	<li id="{{this.path}}"onClick=setEditor('{{this.path}}')>{{this.name}}</li>
+	<li id="{{this.path}}">{{this.name}}<img src="/img/editButton.png" onClick=setEditor('{{this.path}}')></img><img src="/img/deleteButton.png" onClick=deleteFile('{{this.path}}')></img></li>
 {{/if}}
 {{/each}}
