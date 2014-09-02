@@ -220,6 +220,18 @@ app.get('/home', function(req, res) {
 	});
 
 });
+
+app.get('/all', function(req, res) {
+    db.collection('worlds').find(function(err, docs) { //grab the info from mongodb about the worlds that we have to render, and then display them on the page
+        req.hbs.preview = docs;
+        req.hbs.path = partialsDir + '/all.hbs';
+        res.render('root', req.hbs);
+    });
+
+});
+
+
+
 app.get('/admin',function(req, res){
     console.log(req)
 
