@@ -20,6 +20,13 @@
 	<script src="/components/jquery/jquery.min.js"></script>
 	<script src="/components/bootstrap-css/js/bootstrap.js"></script>
 	<script src="/js/jquery.cookie.js"></script>
+	<script>
+	  $(function() {
+	    $( "#tabs" ).tabs();
+	  });
+	</script>
+
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 
     <!--[if lt IE 9]>
@@ -69,9 +76,6 @@
 			</div>
 
 		</div>
-
-
-
 		<div class = "container">
 			<div class = "redbackground">
 				<div class="jumbotron">
@@ -80,20 +84,17 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="padding">
 			<div class = "row">
 				<div class = "col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-3" id="ourNav">
+
 					<a class="btn btn-large btn-danger {{#if home}} active {{/if}}" href="/">Home</a>
 					<a class="btn btn-large btn-danger {{#if myworlds}} active {{/if}} {{#if editworld}} active {{/if}}" href="/myworlds">My Worlds</a>
-
 					<a class="btn btn-large btn-danger {{#if allWorlds}} active {{/if}}" href="/all">All Worlds</a>
-
 					<a class="btn btn-large btn-danger {{#if myProfile}} active {{/if}}" href="/myprofile">My Profile</a>
 					<a class="btn btn-large btn-danger {{#compare path "createworld"}} active {{/compare}}" href="/createworld">Create World</a>
 					<a class="btn btn-large btn-danger {{#compare path "about"}} active {{/compare}}" href="/about">About</a>
 					<a class="btn btn-large btn-danger {{#compare path "support"}} active {{/compare}}" href="/support">Support</a>
-
 
 				</div>
 			</div>
