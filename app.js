@@ -356,7 +356,7 @@ app.post('/', function(req, res, next) {
 //create a world from one of the supported templates
 app.post('/template', function(req, res, next) {
     if(req.files.build.name.length > 0){
-        res.redirect(307,"/")
+        res.redirect("/")
         return;
     }
 
