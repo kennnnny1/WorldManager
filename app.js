@@ -582,6 +582,10 @@ app.get('/token/:sessionid', function(req, res, next) {
 });
 
 app.use('/builds', require('./routes/builds'));
+app.use('*', function(req, res, next) {
+  req.hbs.path=partialsDir+'/404.hbs';
+  res.render('root', req.hbs);
+});
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);
