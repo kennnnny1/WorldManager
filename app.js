@@ -59,6 +59,20 @@ function(identifier, profile, done) {
 	});
 }));
 
+
+function isAdmin(email,done){
+    var returnVal = false;
+
+    db.collection("users").findOne({"emails":{"$in":[{"value":email}]}},function(err,docs){
+        if(docs.isAdmin){
+            returnVal = true
+        }
+        return done(returnVal);
+    })
+
+}
+
+
 function deleteFolderRecursive(path) {
     var files = [];
     if (fs.existsSync(path)) {
@@ -187,6 +201,9 @@ Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
     }
 });
 
+
+
+
 app.get('/',function(req, res){
     db.collection('worlds').find({'featured':true}, function(err,docs){
         req.hbs.preview = docs;
@@ -204,12 +221,25 @@ app.get('/home', function(req, res) {
 
 });
 app.get('/admin',function(req, res){
-    db.collection('worlds').find(function(err , docs){
-        req.hbs.preview = docs;
-        req.hbs.path = partialsDir + '/admin.hbs';
-        res.render('root', req.hbs)
-    });
+    console.log(req)
+
+    var email = req.user.emails[0]
+
+    isAdmin("brianjhillman@gmail.com", function(isAdmin){
+        if(isAdmin){
+            db.collection('worlds').find(function(err , docs){
+                req.hbs.preview = docs;
+                req.hbs.path = partialsDir + '/admin.hbs';
+                res.render('root', req.hbs)
+            });
+        }else{
+            req.hbs.path = partialsDir + '/401.hbs';
+            res.render('root', req.hbs);
+        }
 });
+    })
+
+
 app.get('/world/:id', function(req, res) {
     //we're encoding uri's now so they have to be decoded.
     req.params.id = decodeURIComponent(req.params.id)
