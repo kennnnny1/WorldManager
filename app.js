@@ -328,12 +328,13 @@ app.post('/', function(req, res, next) {
 					});
                     newWorld.featured = false;
 					newWorld.opentokSessions = {};
-					opentok.createSession({'location': '127.0.0.1'}, function(result) {
-						newWorld.opentokSessions.management = result;
-						opentok.createSession({'location':'127.0.0.1'}, function(result) {
-							newWorld.opentokSessions.union = result;
-							opentok.createSession({'location' : '127.0.0.1'}, function(result) {
-								newWorld.opentokSessions.middle = result;
+
+					opentok.createSession({'location': '127.0.0.1'}, function(err, result) {
+						newWorld.opentokSessions.management = result.sessionId;
+						opentok.createSession({'location':'127.0.0.1'}, function(err, result) {
+							newWorld.opentokSessions.union = result.sessionId;
+							opentok.createSession({'location' : '127.0.0.1'}, function(err, result) {
+								newWorld.opentokSessions.middle = result.sessionId;
 								db.collection('worlds').save(newWorld);
 							});
 						});
@@ -363,34 +364,34 @@ app.post('/template', function(req, res, next) {
     var templateName = req.body.templateName;
     fs.exists(__dirname+'/buildTemplates/'+templateName, function (exists) {
       if(exists) {
-	//TODO: make this into a more generic function for just copying folders
-	fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds/'+req.body.nickname, function(err){
-	  if(err) res.send(err);
-	  var newWorld = req.body;
+        //TODO: make this into a more generic function for just copying folders
+        fs.copy(__dirname+'/buildTemplates/'+templateName, __dirname+'/builds/'+req.body.nickname, function(err){
+          if(err) res.send(err);
+          var newWorld = req.body;
 
-	  newWorld.id = req.body.nickname;
+          newWorld.id = req.body.nickname;
 
-	  newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
+          newWorld.world = '/builds/'+ newWorld.id + '/WebPlayer.unity3d';
 
-	  newWorld.img = '/builds/'+ encodeURIComponent(newWorld.id) + '/img/logo.png';
-	  newWorld.href = '/world/'+ encodeURIComponent(newWorld.id);
-	  newWorld.user = req.user.identifier;
-      newWorld.featured = false;
-	  newWorld.opentokSessions = {};
-	  opentok.createSession({location: '127.0.0.1'}, function(result) {
-	    newWorld.opentokSessions.management = result;
-	    opentok.createSession({location: '127.0.0.1'}, function(result) {
-	      newWorld.opentokSessions.union = result;
-	      opentok.createSession({location: '127.0.0.1'}, function(result) {
-	        newWorld.opentokSessions.middle = result;
-	        db.collection('worlds').save(newWorld, function(err) {
-		  //res.redirect('/');
-		});
-	      });
+          newWorld.img = '/builds/'+ encodeURIComponent(newWorld.id) + '/img/logo.png';
+          newWorld.href = '/world/'+ encodeURIComponent(newWorld.id);
+          newWorld.user = req.user.identifier;
+            newWorld.featured = false;
+          newWorld.opentokSessions = {};
+          opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+            newWorld.opentokSessions.management = result.sessionId;
+            opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+              newWorld.opentokSessions.union = result.sessionId;
+              opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+                newWorld.opentokSessions.middle = result.sessionId;
+                console.log(newWorld);
+                db.collection('worlds').save(newWorld, function(err) {
+                  res.redirect('/');
+                });
+              });
             });
-	  });
-
-	});
+          });
+        });
       } else {
         res.send('Invalid template selected.');
       }
@@ -580,7 +581,7 @@ app.get('/token/:sessionid', function(req, res, next) {
 	}
 });
 
-app.use('/builds/', require('./routes/builds'));
+app.use('/builds', require('./routes/builds'));
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);

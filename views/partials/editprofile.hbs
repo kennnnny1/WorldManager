@@ -3,16 +3,21 @@
 	    <legend>Edit Profile</legend>
 	    <label>Display Name</label>
 	    <input type="text" placeholder={{user.displayName}} name="displayName">
+      <br/>
 	    <label>First Name</label>
 	    <input type="text" placeholder={{user.name.givenName}} name="givenName">
+      <br/>
 		<label>Last Name</label>
 	    <input type="text" placeholder={{user.name.familyName}}  name="familyName">
+    <br/>
 		{{#each user.emails}}
 		<label>E-mail</label>
 	    <input type="text" placeholder={{this.value}}  name="email">
-		{{/each}}
+		<br/>
+    {{/each}}
 		<label>Website</label>
 	    <input type="text" name="website" placeholder={{user.website}}>
+    <br/>
 		<label>Profile Picture:</label>
 	    <input type="file" name="image">
 	    <label class="checkbox">

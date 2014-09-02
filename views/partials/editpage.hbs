@@ -454,6 +454,13 @@
 			pathToFile=path;
 		});
 	}
+  var deleteFile = function(path)
+  {
+    $.ajax({
+      url:path,
+      type: 'DELETE'
+    });
+  }
 	var getDir = function(parent,dir)
 	{
 		if(parent.getAttribute("class")!="selected")
@@ -472,5 +479,6 @@
 </script>
 <button class="btn" onclick="update()">Save</button>
 <a class="btn" href="/world/{{identifier}}" onclick="update()">Finish</a>
-<ul id="builds{{identifier}}"> 
+<ul class="nobullets" id="builds{{identifier}}"> 
+  
 </ul>
