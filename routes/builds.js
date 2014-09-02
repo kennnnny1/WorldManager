@@ -28,7 +28,8 @@ editor.use(function(req,res, next) {
   else if(req.method=="PUT") {
     if (req.isAuthenticated())
     {
-      db.collection('worlds').find({id: req.params.id}, function(err, docs) {
+      var worldid = req.params.id.split('/')[1];
+      db.collection('worlds').find({id: worldid}, function(err, docs) {
         if (req.user.identifier == docs[0].user)
         {
           var directory = req.url.substring(0, req.url.lastIndexOf('/'));
