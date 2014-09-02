@@ -18,4 +18,3 @@ Temp
 *.sln 
 config.js
 static/builds/*
-static/img/*

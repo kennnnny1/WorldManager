@@ -18,8 +18,18 @@ h1 small{
     color:lightgrey;
 }
 
+.worldDesc {
+  width: 134px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-
+.worldDesc:hover {
+  text-overflow: none;
+  white-space: inherit;
+  overflow: visible;
+}
 .navlist .last{
     display:inline;1
     list-style-type: none;
