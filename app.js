@@ -295,6 +295,7 @@ app.post('/admin', function(req,res,next){
 });
 
 app.post('/', function(req, res, next) {
+  console.log("Uploading new world.");
 	if (req.isAuthenticated())
 	{
 		var extension = path.extname(req.files.build.name);
@@ -356,7 +357,7 @@ app.post('/', function(req, res, next) {
 //create a world from one of the supported templates
 app.post('/template', function(req, res, next) {
     if(req.files.build.name.length > 0){
-        res.redirect("/")
+        res.redirect(307, "/");
         return;
     }
 
