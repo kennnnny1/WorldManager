@@ -169,6 +169,8 @@ a:hover{
     background-origin: initial;
     background-clip: initial;
     background-color: rgb(246, 247, 242);
+    background-repeat: no-repeat;
+    background-position: 100%,50%;
 }
 
 .padding{
