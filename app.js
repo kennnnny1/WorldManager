@@ -269,7 +269,7 @@ app.get('/world/:id', function(req, res) {
 			}
 			if (fs.existsSync(__dirname + '/builds/'+ req.params.id + '/world.hbs')) //switch to custom hbs if they made one
 			{
-				req.hbs.path = __dirname + '/builds/'+ req.params.id + '/world.hbs';
+				req.hbs.path = partialsDir + '/world.hbs';
 			}
 			console.log(req.hbs);
 			req.hbs.identifier = req.params.id;
@@ -285,6 +285,8 @@ app.get('/world/:id', function(req, res) {
 });
 
 app.post('/admin', function(req,res,next){
+    req.hbs.identifier = req.params.id;
+
     if(req.isAuthenticated){
         db.worlds.update({},{$set:{'featured':false}},{multi:true});
         for(change in req.body){
@@ -379,11 +381,14 @@ app.post('/template', function(req, res, next) {
           newWorld.user = req.user.identifier;
             newWorld.featured = false;
           newWorld.opentokSessions = {};
-          opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+
+          //We need something likt the following:
+          opts = {'mediaMode':'routed', 'location':'127.0.0.1'}
+          opentok.createSession(opts, function(err, result) {
             newWorld.opentokSessions.management = result.sessionId;
-            opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+            opentok.createSession(opts, function(err, result) {
               newWorld.opentokSessions.union = result.sessionId;
-              opentok.createSession({location: '127.0.0.1'}, function(err, result) {
+              opentok.createSession(opts, function(err, result) {
                 newWorld.opentokSessions.middle = result.sessionId;
                 console.log(newWorld);
                 db.collection('worlds').save(newWorld, function(err) {
