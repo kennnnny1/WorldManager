@@ -6,6 +6,9 @@
  *
  * Date: March 27 05:49:25 2014
  */
+
+myconfig = require('./config')
+
 if(!window.webkitAudioContext) window.webkitAudioContext = AudioContext;
 _audioContext = new webkitAudioContext();
 
@@ -1685,7 +1688,7 @@ OTHelpers.roundFloat = function(value, places) {
     };
 
   };
-  
+
 })(window, window.OTHelpers);
 
 /*jshint browser:true, smarttabs:true*/
@@ -1884,7 +1887,7 @@ OTHelpers.observeStyleChanges = function(element, stylesToObserve, onChange) {
 
             OTHelpers.forEach(stylesToObserve, function(style) {
                 if(isHidden && (style == 'width' || style == 'height')) return;
-                
+
                 var newValue = getStyle(style);
 
                 if (newValue !== oldStyles[style]) {
@@ -2195,7 +2198,7 @@ var defaultDisplayValueForElement = function(element) {
     }
 
     if (!defaultDisplays[element.ownerDocument]) defaultDisplays[element.ownerDocument] = {};
-    
+
     // We need to know what display value to use for this node. The easiest way
     // is to actually create a node and read it out.
     var testNode = element.ownerDocument.createElement(element.nodeName),
@@ -2216,7 +2219,7 @@ var isHidden = function(element) {
 };
 
 OTHelpers.show = function(element) {
-    var display = element.style.display; 
+    var display = element.style.display;
         //,
         // computedStyle = element.ownerDocument.defaultView.getComputedStyle(element, null),
         // computedDisplay = computedStyle.getPropertyValue('display');
@@ -2227,7 +2230,7 @@ OTHelpers.show = function(element) {
     }
 
     if (isHidden(element)) {
-        // It's still hidden so there's probably a stylesheet that declares this 
+        // It's still hidden so there's probably a stylesheet that declares this
         // element as display:none;
         displayStateCache[element] = 'none';
 
@@ -2309,7 +2312,7 @@ OTHelpers.applyCSS = function(element, styles, callback) {
 
 // Make +element+ visible while executing +callback+.
 OTHelpers.makeVisibleAndYield = function(element, callback) {
-    // find whether it's the element or an ancester that's display none and 
+    // find whether it's the element or an ancester that's display none and
     // then apply to whichever it is
     var targetElement = OTHelpers.findElementWithDisplayNone(element);
     if (!targetElement) return;
@@ -3506,7 +3509,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       triggerOpenedTimer = setTimeout(triggerOpened, 500);
     }
   };
-  
+
   OT.$.createPeerConnection = function (config, options) {
     var NativeRTCPeerConnection = (window.webkitRTCPeerConnection || window.mozRTCPeerConnection);
     return new NativeRTCPeerConnection(config, options);
@@ -4018,9 +4021,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     // @param [Hash] details additional error details
     //
     // @param [Hash] options the options to log the client event with.
-    // @option options [String] action The name of the Event that we are logging. E.g. 
+    // @option options [String] action The name of the Event that we are logging. E.g.
     //  'TokShowLoaded'. Required.
-    // @option options [String] variation Usually used for Split A/B testing, when you 
+    // @option options [String] variation Usually used for Split A/B testing, when you
     //  have multiple variations of the +_action+.
     // @option options [String] payloadType A text description of the payload. Required.
     // @option options [String] payload The payload. Required.
@@ -4047,7 +4050,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       }
 
       if (shouldThrottleError(code, type, partnerId)) {
-        //OT.log('ClientEvents.error has throttled an error of type ' + type + '.' + 
+        //OT.log('ClientEvents.error has throttled an error of type ' + type + '.' +
         // code + ' for partner ' + (partnerId || 'No Partner Id'));
         return;
       }
@@ -4082,9 +4085,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     //  })
     //
     // @param [Hash] options the options to log the client event with.
-    // @option options [String] action The name of the Event that we are logging. 
+    // @option options [String] action The name of the Event that we are logging.
     //  E.g. 'TokShowLoaded'. Required.
-    // @option options [String] variation Usually used for Split A/B testing, when 
+    // @option options [String] variation Usually used for Split A/B testing, when
     //  you have multiple variations of the +_action+.
     // @option options [String] payloadType A text description of the payload. Required.
     // @option options [String] payload The payload. Required.
@@ -4315,7 +4318,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 *   frame rate, this property is undefined.
 *   <p>
 *   For OpenTok cloud-enabled sessions, lowering the frame rate or lowering the resolution reduces
-*   the maximum bandwidth the stream can use. However, in peer-to-peer sessions, lowering the frame 
+*   the maximum bandwidth the stream can use. However, in peer-to-peer sessions, lowering the frame
 *   rate or resolution may not reduce the stream's bandwidth.
 *   </p>
 *   <p>
@@ -4383,14 +4386,14 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 *   </p>
 *   <p>
 *   The default resolution for a stream (if you do not specify a resolution) is 640x480 pixels.
-*   If the client system cannot support the resolution you requested, the the stream will use the 
+*   If the client system cannot support the resolution you requested, the the stream will use the
 *   next largest setting supported.
 *   </p>
 *   <p>
-*   The actual resolution used by the Publisher is set as the <code>videoHeight</code> and 
+*   The actual resolution used by the Publisher is set as the <code>videoHeight</code> and
 *   <code>videoWidth</code> properties of the Publisher object. The actual resolution of a
-*   Subscriber video stream is set as the <code>videoWidth</code> and <code>videoHeight</code> 
-*   properties of the Subscriber object. These may differ from the values of the 
+*   Subscriber video stream is set as the <code>videoWidth</code> and <code>videoHeight</code>
+*   properties of the Subscriber object. These may differ from the values of the
 *   <code>resolution</code> property passed in as the <code>properties</code> property of the
 *   <code>OT.initPublisher()</code> method, if the browser does not support the requested
 *   resolution.
@@ -4476,7 +4479,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       properties = completionHandler;
       completionHandler = arguments[3];
     }
-    
+
     if(typeof targetElement === 'function') {
       completionHandler = targetElement;
       properties = undefined;
@@ -4644,7 +4647,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
 /**
 * This method is deprecated. Use <a href="#on">on()</a> or <a href="#once">once()</a> instead.
-* 
+*
 * <p>
 * Registers a method as an event listener for a specific event.
 * </p>
@@ -4681,7 +4684,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
 /**
 * This method is deprecated. Use <a href="#off">off()</a> instead.
-* 
+*
 * <p>
 * Removes an event listener for a specific event.
 * </p>
@@ -4704,7 +4707,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * Adds an event handler function for one or more events.
 *
 * <p>
-* The OT object dispatches one type of event &#151; an <code>exception</code> event. The following 
+* The OT object dispatches one type of event &#151; an <code>exception</code> event. The following
 * code adds an event
 * listener for the <code>exception</code> event:
 * </p>
@@ -4715,7 +4718,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * });
 * </pre>
 *
-* <p>You can also pass in a third <code>context</code> parameter (which is optional) to define the 
+* <p>You can also pass in a third <code>context</code> parameter (which is optional) to define the
 * value of
 * <code>this</code> in the handler method:</p>
 *
@@ -4735,7 +4738,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * @param {String} type The string identifying the type of event.
 * @param {Function} handler The handler function to process the event. This function takes the event
 * object as a parameter.
-* @param {Object} context (Optional) Defines the value of <code>this</code> in the event handler 
+* @param {Object} context (Optional) Defines the value of <code>this</code> in the event handler
 * function.
 *
 * @memberof OT
@@ -4746,11 +4749,11 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 */
 
 /**
-* Adds an event handler function for an event. Once the handler is called, the specified handler 
+* Adds an event handler function for an event. Once the handler is called, the specified handler
 * method is
 * removed as a handler for this event. (When you use the <code>OT.on()</code> method to add an event
 * handler, the handler
-* is <i>not</i> removed when it is called.) The <code>OT.once()</code> method is the equivilent of 
+* is <i>not</i> removed when it is called.) The <code>OT.once()</code> method is the equivilent of
 * calling the <code>OT.on()</code>
 * method and calling <code>OT.off()</code> the first time the handler is invoked.
 *
@@ -4764,7 +4767,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * }
 * </pre>
 *
-* <p>You can also pass in a third <code>context</code> parameter (which is optional) to define the 
+* <p>You can also pass in a third <code>context</code> parameter (which is optional) to define the
 * value of
 * <code>this</code> in the handler method:</p>
 *
@@ -4778,9 +4781,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * </pre>
 *
 * <p>
-* The method also supports an alternate syntax, in which the first parameter is an object that is a 
+* The method also supports an alternate syntax, in which the first parameter is an object that is a
 * hash map of
-* event names and handler functions and the second parameter (optional) is the context for this in 
+* event names and handler functions and the second parameter (optional) is the context for this in
 * each handler:
 * </p>
 * <pre>
@@ -4793,14 +4796,14 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * );
 * </pre>
 *
-* @param {String} type The string identifying the type of event. You can specify multiple event 
+* @param {String} type The string identifying the type of event. You can specify multiple event
 * names in this string,
-* separating them with a space. The event handler will process the first occurence of the events. 
+* separating them with a space. The event handler will process the first occurence of the events.
 * After the first event,
 * the handler is removed (for all specified events).
 * @param {Function} handler The handler function to process the event. This function takes the event
 * object as a parameter.
-* @param {Object} context (Optional) Defines the value of <code>this</code> in the event handler 
+* @param {Object} context (Optional) Defines the value of <code>this</code> in the event handler
 * function.
 *
 * @memberof OT
@@ -4818,15 +4821,15 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 *
 * <pre>OT.off("exceptionEvent", exceptionEventHandler);</pre>
 *
-* <p>If you pass in an event name and <i>no</i> handler method, all handlers are removed for that 
+* <p>If you pass in an event name and <i>no</i> handler method, all handlers are removed for that
 * events:</p>
 *
 * <pre>OT.off("exceptionEvent");</pre>
 *
 * <p>
-* The method also supports an alternate syntax, in which the first parameter is an object that is a 
+* The method also supports an alternate syntax, in which the first parameter is an object that is a
 * hash map of
-* event names and handler functions and the second parameter (optional) is the context for matching 
+* event names and handler functions and the second parameter (optional) is the context for matching
 * handlers:
 * </p>
 * <pre>
@@ -4838,12 +4841,12 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * );
 * </pre>
 *
-* @param {String} type (Optional) The string identifying the type of event. You can use a space to 
+* @param {String} type (Optional) The string identifying the type of event. You can use a space to
 * specify multiple events, as in "eventName1 eventName2 eventName3". If you pass in no
 * <code>type</code> value (or other arguments), all event handlers are removed for the object.
-* @param {Function} handler (Optional) The event handler function to remove. If you pass in no 
+* @param {Function} handler (Optional) The event handler function to remove. If you pass in no
 * <code>handler</code>, all event handlers are removed for the specified event <code>type</code>.
-* @param {Object} context (Optional) If you specify a <code>context</code>, the event handler is 
+* @param {Object} context (Optional) If you specify a <code>context</code>, the event handler is
 * removed for all specified events and handlers that use the specified context.
 *
 * @memberof OT
@@ -5482,7 +5485,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     } else {
       this.connections = [connection];
     }
-    
+
     this.connection = connection;
     this.reason = reason;
   };
@@ -5722,15 +5725,15 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
   };
 
 /**
- * The Session object dispatches SessionDisconnectEvent object when a session has disconnected. 
- * This event may be dispatched asynchronously in response to a successful call to the 
+ * The Session object dispatches SessionDisconnectEvent object when a session has disconnected.
+ * This event may be dispatched asynchronously in response to a successful call to the
  * <code>disconnect()</code> method of the session object.
  *
  *  <h4>
  *    <a href="example"></a>Example
  *  </h4>
  *  <p>
- *    The following code initializes a session and sets up an event listener for when a session is 
+ *    The following code initializes a session and sets up an event listener for when a session is
  * disconnected.
  *  </p>
  * <pre>var apiKey = ""; // Replace with your API key. See https://dashboard.tokbox.com/projects
@@ -5756,7 +5759,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
  *    <li><code>"forceDisconnected"</code> &#151; A moderator has disconnected you from the session
  *     by calling the <code>forceDisconnect()</code> method of the Session object. (See
  *       <a href="Session.html#forceDisconnect">Session.forceDisconnect()</a>.)</li>
- *    <li><code>"networkDisconnected"</code> &#151; The network connection terminated abruptly 
+ *    <li><code>"networkDisconnected"</code> &#151; The network connection terminated abruptly
  *       (for example, the client lost their internet connection).</li>
  *  </ul>
  *
@@ -5774,11 +5777,11 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 * <p>For the <code>sessionDisconnectEvent</code>, the default behavior is that all Subscriber
 * objects are unsubscribed and removed from the HTML DOM. Each Subscriber object dispatches a
 * <code>destroyed</code> event when the element is removed from the HTML DOM. If you call the
-* <code>preventDefault()</code> method in the event listener for the <code>sessionDisconnect</code> 
-* event, the default behavior is prevented, and you can, optionally, clean up Subscriber objects 
+* <code>preventDefault()</code> method in the event listener for the <code>sessionDisconnect</code>
+* event, the default behavior is prevented, and you can, optionally, clean up Subscriber objects
 * using your own code).
 *
-* <p>To see whether an event has a default behavior, check the <code>cancelable</code> property of 
+* <p>To see whether an event has a default behavior, check the <code>cancelable</code> property of
 * the event object. </p>
 *
 * <p>Call the <code>preventDefault()</code> method in the event listener function for the event.</p>
@@ -5788,14 +5791,14 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 */
 
 /**
- * The Session object dispatches a <code>streamPropertyChanged</code> event in the 
+ * The Session object dispatches a <code>streamPropertyChanged</code> event in the
  * following circumstances:
  *
  * <ul>
  *
- *  <li>When a publisher starts or stops publishing audio or video. This change causes 
- *  the <code>hasAudio</code> or <code>hasVideo</code> property of the Stream object to 
- *  change. This change results from a call to the <code>publishAudio()</code> or 
+ *  <li>When a publisher starts or stops publishing audio or video. This change causes
+ *  the <code>hasAudio</code> or <code>hasVideo</code> property of the Stream object to
+ *  change. This change results from a call to the <code>publishAudio()</code> or
  *  <code>publishVideo()</code> methods of the Publish object.</li>
  *
  *  <li>When the <code>videoDimensions</code> property of a stream changes. For more information,
@@ -5804,7 +5807,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
  * </ul>
  *
  * @class StreamPropertyChangedEvent
- * @property {String} changedProperty The property of the stream that changed. This value 
+ * @property {String} changedProperty The property of the stream that changed. This value
  * is either <code>"hasAudio"</code>, <code>"hasVideo"</code>, or <code>"videoDimensions"</code>.
  * @property {Stream} stream The Stream object for which a property has changed.
  * @property {Object} newValue The new value of the property (after the change).
@@ -5845,7 +5848,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
  * The Session object dispatches a signal event when the client receives a signal from the session.
  *
  * @class SignalEvent
- * @property {String} type The type assigned to the signal (if there is one). Use the type to 
+ * @property {String} type The type assigned to the signal (if there is one). Use the type to
  * filter signals received (by adding an event handler for signal:type1 or signal:type2, etc.)
  * @property {String} data The data string sent with the signal (if there is one).
  * @property {Connection} from The Connection corresponding to the client that sent with the signal.
@@ -8980,7 +8983,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
   // }
   //
   // @todo Raptor Docs {
-  //   Document payload formats for incoming messages (what are the payloads for 
+  //   Document payload formats for incoming messages (what are the payloads for
   //    STREAM CREATED/MODIFIED for example)
   //   Document how keepalives work
   //   Document all the Raptor actions and types
@@ -9186,13 +9189,13 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       if (frameRate) channel.frameRate = frameRate;
       channels.push(channel);
     }
-    
+
     var messageContent = {
       id: streamId,
       name: name,
       channel: channels
     };
-    
+
     if (minBitrate) messageContent.minBitrate = minBitrate;
     if (maxBitrate) messageContent.maxBitrate = maxBitrate;
 
@@ -10064,7 +10067,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       case 'create':
         this.emit('archive#create', message.content);
         break;
-      
+
       case 'updated':
         this.emit('archive#updated', message.params.archive, message.content);
         break;
@@ -10156,7 +10159,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       content.stream.forEach(function(streamParams) {
         state.streams.push( parseAndAddStreamToSession(streamParams, session) );
       });
-      
+
       content.archives.forEach(function(archiveParams) {
         state.archives.push( parseAndAddArchiveToSession(archiveParams, session) );
       });
@@ -11136,7 +11139,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     var audioChannel = this.getChannelsOfType('audio')[0],
         videoChannel = this.getChannelsOfType('video')[0];
 
-    // @todo this should really be: "has at least one video/audio track" instead of 
+    // @todo this should really be: "has at least one video/audio track" instead of
     // "the first video/audio track"
     this.hasAudio = audioChannel != null && audioChannel.active;
     this.hasVideo = videoChannel != null && videoChannel.active;
@@ -11274,27 +11277,27 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
 })(window);
 !(function() {
-  
+
 
   OT.Archive = function(id, name, status) {
-    
+
     this.id = id;
     this.name = name;
     this.status = status;
-    
+
     this._ = {};
 
     OT.$.eventing(this);
-    
+
     // Mass update, called by Raptor.Dispatcher
     this._.update = function (attributes) {
       for (var key in attributes) {
         var oldValue = this[key];
         this[key] = attributes[key];
-        
+
         var event = new OT.ArchiveUpdatedEvent(this, key, oldValue, this[key]);
         this.dispatchEvent(event);
-        
+
       }
     }.bind(this);
 
@@ -11606,7 +11609,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
             } else if (_peerConnection.onstatechange !== undefined) {
               _peerConnection.onstatechange = routeStateChanged.bind(this);
             }
-            
+
             if (_peerConnection.oniceconnectionstatechange !== undefined) {
               var failedStateTimer;
               _peerConnection.oniceconnectionstatechange = function (event) {
@@ -11929,7 +11932,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
         }
 
       };
-        
+
       parseFrameRate = function(result) {
         if (result.stat('googFrameRateSent')) {
           return result.stat('googFrameRateSent');
@@ -12084,7 +12087,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
    * * providing a destroy method
    * * providing a processMessage method
    *
-   * Once the PeerConnection is connected and the video element playing it triggers 
+   * Once the PeerConnection is connected and the video element playing it triggers
    * the connected event
    *
    * Triggers the following events
@@ -12334,7 +12337,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     this.destroy = function() {
       if (_peerConnection) {
         var numDelegates = _peerConnection.unregisterMessageDelegate(_relayMessageToPeer);
-        
+
         // Only clean up the PeerConnection if there isn't another Subscriber using it
         if (numDelegates === 0) {
           // Unsubscribe us from the stream, if it hasn't already been destroyed
@@ -12342,7 +12345,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
               // Notify the server components
             session._.subscriberDestroy(stream, subscriber);
           }
-          
+
           // Ref: OPENTOK-2458 disable all audio tracks before removing it.
           this.subscribeToAudio(false);
         }
@@ -12998,9 +13001,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     var _style = new Style(initalStyles, onStyleChange);
 
   /**
-   * Returns an object that has the properties that define the current user interface controls of 
-   * the Publisher. You can modify the properties of this object and pass the object to the 
-   * <code>setStyle()</code> method of thePublisher object. (See the documentation for 
+   * Returns an object that has the properties that define the current user interface controls of
+   * the Publisher. You can modify the properties of this object and pass the object to the
+   * <code>setStyle()</code> method of thePublisher object. (See the documentation for
    * <a href="#setStyle">setStyle()</a> to see the styles that define this object.)
    * @return {Object} The object that defines the styles of the Publisher.
    * @see <a href="#setStyle">setStyle()</a>
@@ -13009,9 +13012,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
    */
 
 	/**
-	 * Returns an object that has the properties that define the current user interface controls of 
-   * the Subscriber. You can modify the properties of this object and pass the object to the 
-   * <code>setStyle()</code> method of the Subscriber object. (See the documentation for 
+	 * Returns an object that has the properties that define the current user interface controls of
+   * the Subscriber. You can modify the properties of this object and pass the object to the
+   * <code>setStyle()</code> method of the Subscriber object. (See the documentation for
    * <a href="#setStyle">setStyle()</a> to see the styles that define this object.)
 	 * @return {Object} The object that defines the styles of the Subscriber.
 	 * @see <a href="#setStyle">setStyle()</a>
@@ -13060,8 +13063,8 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
    *
    * <pre>myPublisher.setStyle({nameDisplayMode: "off"});</pre>
    *
-   * <p>If you pass two parameters, <code>style</code> and <code>value</code>, they are 
-   * key-value pair that define one property of the display style. For example, the following 
+   * <p>If you pass two parameters, <code>style</code> and <code>value</code>, they are
+   * key-value pair that define one property of the display style. For example, the following
    * code passes two parameter values to the method:</p>
    *
    * <pre>myPublisher.setStyle("nameDisplayMode", "off");</pre>
@@ -13070,12 +13073,12 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
    * or <code>OT.initPublisher()</code> method. Pass a <code>style</code> property as part of the
    * <code>properties</code> parameter of the method.</p>
    *
-   * <p>The OT object dispatches an <code>exception</code> event if you pass in an invalid style 
+   * <p>The OT object dispatches an <code>exception</code> event if you pass in an invalid style
    * to the method. The <code>code</code> property of the ExceptionEvent object is set to 1011.</p>
    *
-   * @param {Object} style Either an object containing properties that define the style, or a 
+   * @param {Object} style Either an object containing properties that define the style, or a
    * String defining this single style property to set.
-   * @param {String} value The value to set for the <code>style</code> passed in. Pass a value 
+   * @param {String} value The value to set for the <code>style</code> passed in. Pass a value
    * for this parameter only if the value of the <code>style</code> parameter is a String.</p>
    *
    * @see <a href="#getStyle">getStyle()</a>
@@ -13125,22 +13128,22 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
    *
    * <pre>mySubscriber.setStyle({nameDisplayMode: "off"});</pre>
    *
-   * <p>If you pass two parameters, <code>style</code> and <code>value</code>, they are key-value 
-   * pair that define one property of the display style. For example, the following code passes 
+   * <p>If you pass two parameters, <code>style</code> and <code>value</code>, they are key-value
+   * pair that define one property of the display style. For example, the following code passes
    * two parameter values to the method:</p>
    *
    * <pre>mySubscriber.setStyle("nameDisplayMode", "off");</pre>
    *
    * <p>You can set the initial settings when you call the <code>Session.subscribe()</code> method.
-   * Pass a <code>style</code> property as part of the <code>properties</code> parameter of the 
+   * Pass a <code>style</code> property as part of the <code>properties</code> parameter of the
    * method.</p>
    *
-   * <p>The OT object dispatches an <code>exception</code> event if you pass in an invalid style 
+   * <p>The OT object dispatches an <code>exception</code> event if you pass in an invalid style
    * to the method. The <code>code</code> property of the ExceptionEvent object is set to 1011.</p>
    *
-   * @param {Object} style Either an object containing properties that define the style, or a 
+   * @param {Object} style Either an object containing properties that define the style, or a
    * String defining this single style property to set.
-   * @param {String} value The value to set for the <code>style</code> passed in. Pass a value 
+   * @param {String} value The value to set for the <code>style</code> passed in. Pass a value
    * for this parameter only if the value of the <code>style</code> parameter is a String.</p>
    *
    * @returns {Subscriber} The Subscriber object.
@@ -13417,10 +13420,10 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 //     NotSubscribing            (the initial state
 //     Init                      (basic setup of DOM
 //     ConnectingToPeer          (Failure Cases -> No Route, Bad Offer, Bad Answer
-//     BindingRemoteStream       (Failure Cases -> Anything to do with the media being 
+//     BindingRemoteStream       (Failure Cases -> Anything to do with the media being
 //                               (invalid, the media never plays
 //     Subscribing               (this is 'onLoad'
-//     Failed                    (terminal state, with a reason that maps to one of the 
+//     Failed                    (terminal state, with a reason that maps to one of the
 //                               (failure cases above
 //
 //
@@ -13430,7 +13433,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 //
 //     Init ->
 //             ConnectingToPeer
-//           | BindingRemoteStream         (if we are subscribing to ourselves and we alreay 
+//           | BindingRemoteStream         (if we are subscribing to ourselves and we alreay
 //                                         (have a stream
 //           | NotSubscribing              (destroy()
 //
@@ -13447,7 +13450,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 //
 //     Subscribing ->
 //             NotSubscribing              (unsubscribe
-//           | Failed                      (probably a peer connection failure after we began 
+//           | Failed                      (probably a peer connection failure after we began
 //                                         (subscribing
 //
 //     Failed ->                           (terminal error state)
@@ -13937,9 +13940,9 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
           _publishStartTime = new Date();
 
           this.trigger('publishComplete', null, this);
-      
+
           this.dispatchEvent(new OT.StreamEvent('streamCreated', stream, null, false));
-          
+
           logAnalyticsEvent('publish', 'Success', 'streamType:streamId', 'WebRTC:' + _streamId);
         }.bind(this),
 
@@ -14114,7 +14117,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
           _loaded = false;
 
           _session = null;
-          
+
           _state.set('NotPublishing');
         }.bind(this);
 
@@ -14129,7 +14132,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
         publishVideo : true,
         mirror: true
       });
-        
+
       if (!_publishProperties.constraints) {
         _publishProperties.constraints = OT.$.clone(defaultConstraints);
         if (_publishProperties.resolution) {
@@ -14151,7 +14154,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
             };
           }
         }
-    
+
         if (_publishProperties.frameRate !== void 0 &&
           _validFrameRates.indexOf(_publishProperties.frameRate) === -1) {
           OT.warn('Invalid frameRate passed to the publisher got: ' +
@@ -14224,7 +14227,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
       if (_microphone) {
         _microphone.muted = !value;
       }
-      
+
       if (_chrome) {
         _chrome.muteButton.muted = !value;
       }
@@ -14416,7 +14419,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
             _streamId = streamId;
           }.bind(this);
-              
+
           // We set the streamWidth and streamHeight to be the minimum of the requested
           // resolution and the actual resolution.
           if (_publishProperties.videoDimensions) {
@@ -14475,7 +14478,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
         return this;
       }.bind(this),
-      
+
       streamDestroyed: function(reason) {
         if(['reset'].indexOf(reason) < 0) {
           var event = new OT.StreamEvent('streamDestroyed', _stream, reason, true);
@@ -14538,7 +14541,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
         get: function() { return _domId; },
         enumerable: true
       },
-        
+
       element: {
         get: function() { return _container.domElement; },
         enumerable: true
@@ -14548,7 +14551,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
         get: function() { return _guid; },
         enumerable: true
       },
-      
+
       stream: {
         get: function() { return _stream; },
         set: function(stream) {
@@ -14587,12 +14590,12 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
           return _container && _container.loading;
         }
       },
-        
+
       videoWidth: {
         get: function() { return _targetElement.videoWidth; },
         enumerable: true
       },
-        
+
       videoHeight: {
         get: function() { return _targetElement.videoHeight; },
         enumerable: true
@@ -14656,10 +14659,10 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
 	/**
 	 * The publisher has stopped streaming to the session. The default behavior is that
-	 * the Publisher object is removed from the HTML DOM). The Publisher object dispatches a 
-	 * <code>destroyed</code> event when the element is removed from the HTML DOM. If you call the 
-	 * <code>preventDefault()</code> method in the event listener for the 
-	 * <code>streamDestroyed</code> event, the default behavior is prevented, and you 
+	 * the Publisher object is removed from the HTML DOM). The Publisher object dispatches a
+	 * <code>destroyed</code> event when the element is removed from the HTML DOM. If you call the
+	 * <code>preventDefault()</code> method in the event listener for the
+	 * <code>streamDestroyed</code> event, the default behavior is prevented, and you
 	 * can, optionally, retain the Publisher for reuse or clean it up using your own code.
 	 * @name streamDestroyed
 	 * @event
@@ -14916,9 +14919,10 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 	  _audioAnalyser = _audioContext.createAnalyser();
 	  _audioAnalyser.fftSize = 256;
 	  _audioContext.createMediaStreamSource(webOTStream).connect(_audioAnalyser);
-	  var minSFMThresh = 255;
+    //Talk threshhold
+	  var minSFMThresh =  myconfig.minSFMThresh;
 	  var isTalking = 0;
-	  var intervalId = setInterval(function() { 
+	  var intervalId = setInterval(function() {
 	   if(!_streamContainer) {
 	     clearInterval(intervalId);
 	     return;
@@ -15304,7 +15308,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
      *
      * @param {Number} value The audio volume, between 0 and 100.
      *
-     * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the 
+     * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the
      * following:
      *
      * <pre>mySubscriber.setAudioVolume(50).setStyle(newStyle);</pre>
@@ -15337,7 +15341,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     /**
     * Returns the audio volume, between 0 and 100, of the Subscriber.
     *
-    * <p>Generally you use this method in conjunction with the <code>setAudioVolume()</code> 
+    * <p>Generally you use this method in conjunction with the <code>setAudioVolume()</code>
     * method.</p>
     *
     * @return {Number} The audio volume, between 0 and 100, of the Subscriber.
@@ -15354,20 +15358,20 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     };
 
     /**
-    * Toggles audio on and off. Starts subscribing to audio (if it is available and currently 
-    * not being subscribed to) when the <code>value</code> is <code>true</code>; stops 
-    * subscribing to audio (if it is currently being subscribed to) when the <code>value</code> 
+    * Toggles audio on and off. Starts subscribing to audio (if it is available and currently
+    * not being subscribed to) when the <code>value</code> is <code>true</code>; stops
+    * subscribing to audio (if it is currently being subscribed to) when the <code>value</code>
     * is <code>false</code>.
     * <p>
-    * <i>Note:</i> This method only affects the local playback of audio. It has no impact on the 
-    * audio for other connections subscribing to the same stream. If the Publsher is not 
+    * <i>Note:</i> This method only affects the local playback of audio. It has no impact on the
+    * audio for other connections subscribing to the same stream. If the Publsher is not
     * publishing audio, enabling the Subscriber audio will have no practical effect.
     * </p>
     *
-    * @param {Boolean} value Whether to start subscribing to audio (<code>true</code>) or not 
+    * @param {Boolean} value Whether to start subscribing to audio (<code>true</code>) or not
     * (<code>false</code>).
     *
-    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the 
+    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the
     * following:
     *
     * <pre>mySubscriber.subscribeToAudio(true).subscribeToVideo(false);</pre>
@@ -15419,20 +15423,20 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 
 
     /**
-    * Toggles video on and off. Starts subscribing to video (if it is available and 
-    * currently not being subscribed to) when the <code>value</code> is <code>true</code>; 
-    * stops subscribing to video (if it is currently being subscribed to) when the 
+    * Toggles video on and off. Starts subscribing to video (if it is available and
+    * currently not being subscribed to) when the <code>value</code> is <code>true</code>;
+    * stops subscribing to video (if it is currently being subscribed to) when the
     * <code>value</code> is <code>false</code>.
     * <p>
-    * <i>Note:</i> This method only affects the local playback of video. It has no impact on 
-    * the video for other connections subscribing to the same stream. If the Publsher is not 
+    * <i>Note:</i> This method only affects the local playback of video. It has no impact on
+    * the video for other connections subscribing to the same stream. If the Publsher is not
     * publishing video, enabling the Subscriber video will have no practical video.
     * </p>
     *
-    * @param {Boolean} value Whether to start subscribing to video (<code>true</code>) or not 
+    * @param {Boolean} value Whether to start subscribing to video (<code>true</code>) or not
     * (<code>false</code>).
     *
-    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the 
+    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the
     * following:
     *
     * <pre>mySubscriber.subscribeToVideo(true).subscribeToAudio(false);</pre>
@@ -15483,7 +15487,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
         get: function() { return _domId; },
         enumerable: true
       },
-        
+
       element: {
         get: function() { return _container.domElement; },
         enumerable: true
@@ -15539,14 +15543,14 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     });
 
     /**
-    * Restricts the frame rate of the Subscriber's video stream, when you pass in 
-    * <code>true</code>. When you pass in <code>false</code>, the frame rate of the video stream 
-    * is not restricted. 
+    * Restricts the frame rate of the Subscriber's video stream, when you pass in
+    * <code>true</code>. When you pass in <code>false</code>, the frame rate of the video stream
+    * is not restricted.
     * <p>
-    * When the frame rate is restricted, the Subscriber video frame will update once or less per 
+    * When the frame rate is restricted, the Subscriber video frame will update once or less per
     * second.
     * <p>
-    * This feature is only available in sessions that use the OpenTok media server, not in 
+    * This feature is only available in sessions that use the OpenTok media server, not in
     * peer-to-peer sessions. In peer-to-peer sessions, calling this method has no effect.
     * <p>
     * Restricting the subscriber frame rate has the following benefits:
@@ -15559,10 +15563,10 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
     * Reducing a subscriber's frame rate has no effect on the frame rate of the video in
     * other clients.
     *
-    * @param {Boolean} value Whether to restrict the Subscriber's video frame rate 
+    * @param {Boolean} value Whether to restrict the Subscriber's video frame rate
     * (<code>true</code>) or not (<code>false</code>).
     *
-    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the 
+    * @return {Subscriber} The Subscriber object. This lets you chain method calls, as in the
     * following:
     *
     * <pre>mySubscriber.restrictFrameRate(false).subscribeToAudio(true);</pre>
@@ -16384,7 +16388,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
           OT.ExceptionCodes.AUTHENTICATION_ERROR));
         return this;
       }
-      
+
       if (!_sessionId) {
         setTimeout(sessionConnectFailed.bind(this,
             'SessionID is undefined. You must pass a sessionID to initSession.',
