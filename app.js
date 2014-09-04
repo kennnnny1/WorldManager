@@ -269,7 +269,7 @@ app.get('/world/:id', function(req, res) {
 			}
 			if (fs.existsSync(__dirname + '/builds/'+ req.params.id + '/world.hbs')) //switch to custom hbs if they made one
 			{
-				req.hbs.path = __dirname + '/builds/'+ req.params.id + '/world.hbs';
+				req.hbs.path = partialsDir + '/world.hbs';
 			}
 			console.log(req.hbs);
 			req.hbs.identifier = req.params.id;
@@ -285,6 +285,8 @@ app.get('/world/:id', function(req, res) {
 });
 
 app.post('/admin', function(req,res,next){
+    req.hbs.identifier = req.params.id;
+
     if(req.isAuthenticated){
         db.worlds.update({},{$set:{'featured':false}},{multi:true});
         for(change in req.body){
