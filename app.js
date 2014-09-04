@@ -297,6 +297,7 @@ app.post('/admin', function(req,res,next){
 });
 
 app.post('/', function(req, res, next) {
+  console.log("Uploading new world.");
 	if (req.isAuthenticated())
 	{
 		var extension = path.extname(req.files.build.name);
@@ -358,7 +359,7 @@ app.post('/', function(req, res, next) {
 //create a world from one of the supported templates
 app.post('/template', function(req, res, next) {
     if(req.files.build.name.length > 0){
-        res.redirect("/")
+        res.redirect(307, "/");
         return;
     }
 
@@ -587,6 +588,10 @@ app.get('/token/:sessionid', function(req, res, next) {
 });
 
 app.use('/builds', require('./routes/builds'));
+app.use('*', function(req, res, next) {
+  req.hbs.path=partialsDir+'/404.hbs';
+  res.render('root', req.hbs);
+});
 var port = config.port;
 console.log('WorldManager now listening on port:' + port);
 server.listen(port);

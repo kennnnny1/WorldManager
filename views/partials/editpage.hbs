@@ -454,11 +454,14 @@
 			pathToFile=path;
 		});
 	}
-  var deleteFile = function(path)
+  var deleteFile = function(path, parent)
   {
     $.ajax({
       url:path,
-      type: 'DELETE'
+      type: 'DELETE',
+      success: function() {
+        parent.parentNode.parentNode.removeChild(parent.parentNode);
+      }
     });
   }
 	var getDir = function(parent,dir)

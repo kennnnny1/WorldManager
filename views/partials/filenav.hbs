@@ -2,6 +2,6 @@
 {{#if this.isDirectory}}
 	<li>{{this.name}}<ul class="nobullets" id="{{this.path}}" onClick=getDir(this,'{{this.path}}')>></ul></li>
 {{else}}
-	<li id="{{this.path}}">{{this.name}}<img src="/img/editButton.png" onClick=setEditor('{{this.path}}')></img><img src="/img/deleteButton.png" onClick=deleteFile('{{this.path}}')></img></li>
+	<li id="{{this.path}}">{{this.name}}<img src="/img/editButton.png" onClick=setEditor('{{this.path}}')></img><img src="/img/deleteButton.png" onClick=deleteFile('{{this.path}}',this)></img></li>
 {{/if}}
 {{/each}}
