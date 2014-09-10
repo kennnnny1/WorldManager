@@ -59,7 +59,6 @@ function(identifier, profile, done) {
 	});
 }));
 
-
 function isAdmin(email,done){
     var returnVal = false;
 
@@ -273,7 +272,7 @@ app.get('/world/:id', function(req, res) {
 			}
 			console.log(req.hbs);
 			req.hbs.identifier = req.params.id;
-			res.render('root', req.hbs);
+			res.render('root',req.hbs);
 		}
 		else
 		{
