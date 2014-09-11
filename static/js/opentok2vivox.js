@@ -35,8 +35,8 @@ $(document).ready(function() {
 
 function VivoxUnityInit() {
 	console.log('VivoxUnityInit: Start');
-	GetUnity().SendMessage('VivoxHud', 'VivoxJoinedRoom', '');
-	GetUnity().SendMessage('VivoxHud', 'onVivoxConnected', 'Connected to Vivox network!');
+	u.getUnity().SendMessage('VivoxHud', 'VivoxJoinedRoom', '');
+	u.getUnity().SendMessage('VivoxHud', 'onVivoxConnected', 'Connected to Vivox network!');
 	console.log('VivoxUnityInit: End');
 }
 function VivoxLogin(player) {
@@ -67,7 +67,7 @@ function SwitchToChannel(newChannel) {
   console.log('prevRoom: ' + prevRoom);
   console.log('SwitchToChannel: ' + newChannel);
   //Determine if there is a new room
-  GetUnity().SendMessage('VivoxHud', 'UpdateCurrentChannel', newChannel);
+  u.getUnity().SendMessage('VivoxHud', 'UpdateCurrentChannel', newChannel);
   if (newChannel == 'sip:confctl-592@regp.vivox.com') {
     console.log('Management: room3');
     currentRoom = 'management';
@@ -120,7 +120,7 @@ function VivoxJoinChannel(channelURI, fontId) {
 function VivoxLogout(channelURI) {
   console.log('VivoxLogout: ' + channelURI);
   //added commented out vivox onvivoxlogout
-  GetUnity().SendMessage('VivoxHud', 'onVivoxLogout');
+u.getUnity().SendMessage('VivoxHud', 'onVivoxLogout');
 }
 function vivoxCompletedLogout(Response) {
   console.log('vivoxCompletedLogout: ' + Response);

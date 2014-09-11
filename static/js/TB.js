@@ -7,7 +7,6 @@
  * Date: March 27 05:49:25 2014
  */
 
-myconfig = require('./config')
 
 if(!window.webkitAudioContext) window.webkitAudioContext = AudioContext;
 _audioContext = new webkitAudioContext();
@@ -14920,7 +14919,7 @@ OTHelpers.makeVisibleAndYield = function(element, callback) {
 	  _audioAnalyser.fftSize = 256;
 	  _audioContext.createMediaStreamSource(webOTStream).connect(_audioAnalyser);
     //Talk threshhold
-	  var minSFMThresh =  myconfig.minSFMThresh;
+	  var minSFMThresh =  255;
 	  var isTalking = 0;
 	  var intervalId = setInterval(function() {
 	   if(!_streamContainer) {

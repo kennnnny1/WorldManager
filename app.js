@@ -59,7 +59,6 @@ function(identifier, profile, done) {
 	});
 }));
 
-
 function isAdmin(email,done){
     var returnVal = false;
 
@@ -277,7 +276,7 @@ app.get('/world/:id', function(req, res) {
             }
 			console.log(req.hbs);
 			req.hbs.identifier = req.params.id;
-			res.render('root', req.hbs);
+			res.render('root',req.hbs);
 		}
 		else
 		{
@@ -336,11 +335,11 @@ app.post('/', function(req, res, next) {
                     newWorld.featured = false;
 					newWorld.opentokSessions = {};
 
-					opentok.createSession({'location': '127.0.0.1'}, function(err, result) {
+					opentok.createSession({'location': '127.0.0.1', 'mediaMode':'routed'}, function(err, result) {
 						newWorld.opentokSessions.management = result.sessionId;
-						opentok.createSession({'location':'127.0.0.1'}, function(err, result) {
+						opentok.createSession({'location':'127.0.0.1', 'mediaMode':'routed'}, function(err, result) {
 							newWorld.opentokSessions.union = result.sessionId;
-							opentok.createSession({'location' : '127.0.0.1'}, function(err, result) {
+							opentok.createSession({'location' : '127.0.0.1', 'mediaMode':'routed'}, function(err, result) {
 								newWorld.opentokSessions.middle = result.sessionId;
 								db.collection('worlds').save(newWorld);
 							});
