@@ -267,10 +267,14 @@ app.get('/world/:id', function(req, res) {
 				}
 
 			}
-			if (fs.existsSync(__dirname + '/builds/'+ req.params.id + '/world.hbs')) //switch to custom hbs if they made one
+
+			if (!fs.existsSync(__dirname + '/builds/'+ req.params.id + '/world.hbs')) //switch to custom hbs if they made one
 			{
 				req.hbs.path = partialsDir + '/world.hbs';
-			}
+			}else{
+                req.hbs.path = __dirname + '/builds/'+ req.params.id + '/world.hbs';
+
+            }
 			console.log(req.hbs);
 			req.hbs.identifier = req.params.id;
 			res.render('root', req.hbs);
@@ -470,6 +474,7 @@ app.get('/editworld/:id', function(req, res, next) {
 app.post('/editpage/:id', function(req, res, next) {
 	if (req.isAuthenticated())
 	{
+
 		db.collection('worlds').find({id: req.params.id}, function(err, docs) {
 			if (req.user.identifier == docs[0].user)
 			{
@@ -486,6 +491,12 @@ app.post('/editpage/:id', function(req, res, next) {
 		res.send(403);
 	}
 });
+
+app.put('/editpage/:id',function(req,res){
+    console.log(req.body);
+});
+
+
 app.get('/editpage/:id', function(req, res, next) {
 	if (req.isAuthenticated())
 	{
@@ -497,12 +508,23 @@ app.get('/editpage/:id', function(req, res, next) {
 					if (!exists)
 					{
 						//ensure the proper path exists, and copy the file to it
-						createPath(__dirname + '/builds/'+ req.params.id, function() {fs.createReadStream(partialsDir + '/world.hbs').pipe(fs.createWriteStream(__dirname + '/builds/'+ req.params.id + '/world.hbs'))});
+						createPath(__dirname + '/builds/'+ req.params.id, function() {
+                            fs.copy(partialsDir + '/world.hbs' , __dirname+'/builds/'+req.params.id + '/world.hbs', function(err){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    fs.createReadStream(partialsDir + '/world.hbs').pipe(fs.createWriteStream(__dirname + '/builds/'+ req.params.id + '/world.hbs'))
+                                }
+                            });
+
+                        });
 					}
 				});
 				req.hbs.pathToPartial = config.url + ':'+ config.port + '/builds/'+ req.params.id + '/world.hbs';
+                console.log(req.hbs.pathToPartial);
 				req.hbs.identifier = req.params.id;
 				res.render('root', req.hbs);
+
 			}
 			else
 			{
