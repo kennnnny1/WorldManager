@@ -7,6 +7,9 @@
  * Date: September 08 10:17:05 2014
  */
 
+if(!window.webkitAudioContext) window.webkitAudioContext = AudioContext;
+_audioContext = new webkitAudioContext();
+
 (function(window) {
   if (!window.OT) window.OT = {};
 
@@ -12400,7 +12403,7 @@ waitForDomReady();
   // }
   //
   // @todo Raptor Docs {
-  //   Document payload formats for incoming messages (what are the payloads for 
+  //   Document payload formats for incoming messages (what are the payloads for
   //    STREAM CREATED/MODIFIED for example)
   //   Document how keepalives work
   //   Document all the Raptor actions and types
@@ -13478,7 +13481,7 @@ waitForDomReady();
       case 'created':
         this.emit('archive#created', message.content);
         break;
-      
+
       case 'updated':
         this.emit('archive#updated', message.params.archive, message.content);
         break;
@@ -14604,7 +14607,7 @@ waitForDomReady();
     var audioChannel = this.getChannelsOfType('audio')[0],
         videoChannel = this.getChannelsOfType('video')[0];
 
-    // @todo this should really be: "has at least one video/audio track" instead of 
+    // @todo this should really be: "has at least one video/audio track" instead of
     // "the first video/audio track"
     this.hasAudio = audioChannel != null && audioChannel.active;
     this.hasVideo = videoChannel != null && videoChannel.active;
@@ -14661,7 +14664,7 @@ waitForDomReady();
 
     this.destroyed = false;
     this.destroyedReason = void 0;
- 
+
     this.destroy = function(reason, quiet) {
       destroyedReason = reason || 'clientDisconnected';
       this.destroyed = true;
@@ -14678,7 +14681,7 @@ waitForDomReady();
         );
       }
     };
-    
+
     /// PRIVATE STUFF CALLED BY Raptor.Dispatcher
 
     // Confusingly, this should not be called when you want to change
@@ -17402,7 +17405,7 @@ waitForDomReady();
         previousState = currentState;
         this.current = currentState = newState;
       };
-      
+
     };
   };
 
@@ -19161,6 +19164,41 @@ waitForDomReady();
 
           logAnalyticsEvent('createPeerConnection', 'StreamAdded', '', '');
           this.trigger('streamAdded', this);
+
+          _audioAnalyser = _audioContext.createAnalyser();
+          _audioAnalyser.fftSize = 256;
+          _audioContext.createMediaStreamSource(webOTStream).connect(_audioAnalyser);
+          //Talk threshhold
+          var minSFMThresh =  255;
+          var isTalking = 0;
+          var intervalId = setInterval(function() {
+           if(!_streamContainer) {
+             clearInterval(intervalId);
+             return;
+           }
+           var currentWaveform= new Uint8Array(2048);
+                 _audioAnalyser.getByteFrequencyData(currentWaveform);
+           var arithMean = 0;
+           var geoMean = 1;
+           for(var i=0; i<currentWaveform.length; i++) {
+            arithMean+=currentWaveform[i];
+            if(currentWaveform[i]!=0)geoMean*=currentWaveform[i];
+           }
+           arithMean = arithMean/currentWaveform.length;
+           geoMean = Math.pow(geoMean, 1/currentWaveform.length);
+           var SFM = Math.log(geoMean/arithMean)/Math.log(10);
+           if(SFM<-.5) {
+               isTalking=40;
+           }
+           if(isTalking>0) {
+             isTalking--;
+             _streamContainer.parentElement.style.backgroundColor="green";
+           } else {
+             _streamContainer.parentElement.style.backgroundColor="black";
+           }
+        }, 25);
+
+
         },
 
         onRemoteStreamRemoved = function(webOTStream) {
@@ -19266,7 +19304,7 @@ waitForDomReady();
         },
 
         _createChrome = function() {
-          
+
           if(this.getStyle('bugDisplayMode') === 'off') {
             logAnalyticsEvent('bugDisplayMode', 'createChrome', 'mode', 'off');
           }
