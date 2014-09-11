@@ -491,10 +491,38 @@ app.post('/editpage/:id', function(req, res, next) {
 	}
 });
 
-app.put('/editpage/:id',function(req,res){
-    console.log(req.body);
+app.put('/builds/:id/:file',function(req,res){
+
+    fs.writeFile(__dirname + "/builds/" + req.params.id + "/" + req.params.file, req.body.data, function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
 });
 
+app.get('/resettemplate/:id',function(req,res){
+    if(req.isAuthenticated()){
+        db.collection('worlds').find({id: req.params.id}, function(err, docs) {
+            if (docs[0].user && req.user.identifier == docs[0].user)
+            {
+                console.log("removing:" + __dirname+"/builds/"+req.params.id + "/world.hbs");
+                fs.delete(__dirname+"/builds/"+req.params.id + "/world.hbs",function(err){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log("success, reset template");
+                        res.redirect('/world/' + req.params.id);
+                    }
+
+                });
+            }else{
+                req.send(403);
+            }
+        });
+    }else{
+        req.send(403);
+    }
+});
 
 app.get('/editpage/:id', function(req, res, next) {
 	if (req.isAuthenticated())
