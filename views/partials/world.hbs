@@ -83,8 +83,11 @@ console.log("Joining:" + room);
 function GetUnityRoom() {
    GetUnity().SendMessage("Init", "Init", "RoomOne");
 }
-$(document).ready(function() {
 
+$(document).ready(function() {
+$('body > div:nth-child(2) > div.padding > div:nth-child(3) > div').attr("class","");
+$('div').remove('#leftNavBar');
+$('#leftNavBar').detach();
 //   VivoxInstall();
 //DisplayChatBox("ContractPlaque");
 $('#ChatHistory').hide();
@@ -100,14 +103,15 @@ $('#ChatHistory').slideToggle('medium');
 
 
 <div id='playerHome'>
-	<div id="playerAndRoom">
-		<button id='toggleHide'>Toggle Fullscreen</button>
 
-		<div id="unityPlayer" style="width: 600px; height: 450px; visibility: visible;">
+	<div id="playerAndRoom" style="display:inline; width:100%">
+	<button id='toggleHide'>Toggle Fullscreen</button>
+
+		<div id="unityPlayer" style=" float:left; width: 600px; height: 450px; visibility: visible;">
 			<embed width="600" height="450" type="application/vnd.unity" style="display: block; width: 100%; height: 100%;" tabindex="0" firstframecallback="unityObject.firstFrameCallback();" src={{world.world}}>
 		</div>
 
-		<div id="room1" class="well">
+		<div id="room1" class="well" style=" float:left;">
 		    <h2 id="rooms">Room:</h2>
 		    <div id="OnlineUsers"></div>
 
@@ -119,6 +123,8 @@ $('#ChatHistory').slideToggle('medium');
 		</div>
 	</div>
 </div>
+
+
 <script type="text/javascript" src="/js/opentok.js"></script>
 
 
