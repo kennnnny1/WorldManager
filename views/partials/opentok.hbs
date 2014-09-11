@@ -141,12 +141,12 @@
 	//everything below here is a function called by unity
 	function initUser(username) {
 	  var publisherProperties = new Object();
-  	  publisherProperties.publishVideo = false;
 	  publisherProperties.width=128;
 	  publisherProperties.height=30;
 	  publisherProperties.name = username;
+    publisherProperties.publishVideo = false;
 	  publisher = TB.initPublisher(apiKey, 'myPublisherDiv', publisherProperties);
-	  var socket = io.connect('http://rugrid.rutgers.edu:3004');
+	  var socket = io.connect('http://worldmanager.rutgers.edu:3004');
 	  socket.on('connect', function () {
 	  	socket.emit('generateToken', {"session": managementSessionId, "name" : username}, function (token) {
 			console.log("Got token: " + token);
