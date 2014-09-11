@@ -45,6 +45,7 @@ function VivoxLogin(player) {
   sessions[room].connect(apikey, tokens[room]);
   $('#rooms').text('Room: ' + room);
   //set publishing options
+  config.video = false;
   var pubOptions = {
     publishAudio: config.mic,
     publishVideo: config.video,
