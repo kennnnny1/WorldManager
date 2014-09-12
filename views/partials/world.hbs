@@ -52,7 +52,8 @@ display: block !important;
             break;
           }
         });
-        u.initPlugin(jQuery("#unityPlayer")[0], "/builds/green/WebPlayer.unity3d");
+        u.initPlugin(jQuery("#unityPlayer")[0],"{{world.world}}");
+        //u.initPlugin(jQuery("#unityPlayer")[0], "/builds/green/WebPlayer.unity3d");
       });
     -->
     </script>
@@ -118,7 +119,9 @@ $('#ChatHistory').slideToggle('medium');
 		    <div id="opentok" class="well">
 			<div id="devicePanelContainer"></div>
 			<div id="publisherContainer" style="display: none;"></div>
-			<div id="streamsContainer" style="overflow: auto;"></div>
+			<div id="streamsContainer" style="overflow: auto;">
+        <img id="userChatIcon" ></img>
+      </div>
 		    </div>
 		</div>
 	</div>

@@ -19192,11 +19192,14 @@ waitForDomReady();
            }
            if(isTalking>0) {
              isTalking--;
+             $('.userChatIcon').attr('src','/img/youIconGreen.png');
+
              //_streamContainer.parentElement.style.backgroundColor="green";
-             console.log("I am talking");
+             //console.log("I am talking");
 	   } else {
              //_streamContainer.parentElement.style.backgroundColor="black";
-	    //console.log("not talking"); 
+	            //console.log("not talking");
+              $('.userChatIcon').attr('src','/img/youIcon.png');
            }
         }, 25);
 
