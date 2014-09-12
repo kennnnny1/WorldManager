@@ -48,7 +48,7 @@ function VivoxLogin(player) {
   config.video = false;
   var pubOptions = {
     publishAudio: config.mic,
-    publishVideo: config.video,
+    publishVideo: false,
     name: user
   };
   publisher = TB.initPublisher(apikey, 'publisherContainer', pubOptions);

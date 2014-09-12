@@ -19192,9 +19192,11 @@ waitForDomReady();
            }
            if(isTalking>0) {
              isTalking--;
-             _streamContainer.parentElement.style.backgroundColor="green";
-           } else {
-             _streamContainer.parentElement.style.backgroundColor="black";
+             //_streamContainer.parentElement.style.backgroundColor="green";
+             console.log("I am talking");
+	   } else {
+             //_streamContainer.parentElement.style.backgroundColor="black";
+	    //console.log("not talking"); 
            }
         }, 25);
 

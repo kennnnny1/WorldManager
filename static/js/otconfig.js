@@ -30,6 +30,7 @@ function subscribeToStreams(streams) {
     //prevent echo
     if (streams[ii].connection.connectionId == sessions[currentRoom].connection.connectionId) {
 	subscriber.setAudioVolume(0);
+	console.log("My audio set to zero");
     }
   }
 }
