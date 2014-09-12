@@ -6,7 +6,9 @@ var config = {
   video: false
 };
 
-TB.setLogLevel(TB.INFO);
+console.log("otconfig loaded");
+
+OT.setLogLevel(OT.INFO);
 
 function subscribeToStreams(streams) {
   console.log('subscribeToStreams');
@@ -20,17 +22,22 @@ function subscribeToStreams(streams) {
     var streamsContainer = document.getElementById('streamsContainer');
     streamsContainer.appendChild(div);
     var subProperties = {
-    height: 100,
-    width: 128,
-    style: {
-      nameDisplayMode: 'on'
-    }
+      height: 100,
+      width: 128,
+      style: {
+       nameDisplayMode: 'on'
+      }
     };
-    var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subProperties);  // subscriber.subscribeToVideo(false).subscribeToAudio(true);
-    //prevent echo
-    if (streams[ii].connection.connectionId == sessions[currentRoom].connection.connectionId) {
-	subscriber.setAudioVolume(0);
-	console.log("My audio set to zero");
+
+    ///prevent echo: Don't susbcribe to your own audio, but right now. Don't subscribe to yourself.
+    if (streams[ii].name != user) {
+      console.log("subscribing non muted");
+      var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subProperties);  // subscriber.subscribeToVideo(false).subscribeToAudio(true);
+    }    
+    else
+    {
+      console.log(" muted");  
+   //   var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subPropertiesMute);
     }
   }
 }
@@ -59,8 +66,10 @@ function unpublish(room) {
   console.log('unpublished: ' + room);
 }
 function publish(room) {
+  publisher.name = user;
   sessions[room].publish(publisher);
   console.log('published: ' + room);
+  console.log("Name: " + name );
 }
 function toggleAudio(isEnabled) {
   if (publisher != undefined) publisher.publishAudio(isEnabled);
