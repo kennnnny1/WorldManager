@@ -19192,16 +19192,18 @@ waitForDomReady();
            }
            if(isTalking>0) {
              isTalking--;
-             $('#userChatIconActive').attr('style','opacity:1');
-             $('#userChatIcon').attr('style','opacity:0');
-
+             //$('#userChatIconActive').attr('style','opacity:1');
+             //$('#userChatIcon').attr('style','opacity:0');
+             $("h1:contains(" + user + ")").attr('style','color:green')
              //_streamContainer.parentElement.style.backgroundColor="green";
-             console.log("I am talking");
+             //console.log("I am talking");
 	   } else {
              //_streamContainer.parentElement.style.backgroundColor="black";
 	            //console.log("not talking");
-              $('#userChatIconActive').attr('style','opacity:0');
-              $('#userChatIcon').attr('style','opacity:1');
+              //$('#userChatIconActive').attr('style','opacity:0');
+              //$('#userChatIcon').attr('style','opacity:1');
+             $("h1:contains(" + user + ")").attr('style','color:red')
+
 
            }
         }, 25);
