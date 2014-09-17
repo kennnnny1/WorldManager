@@ -29,6 +29,18 @@ function subscribeToStreams(streams) {
       }
     };
 
+    var subPropertiesMuted = {
+      height:100,
+      width:128,
+      audioVolume:0,
+      style:{
+        nameDisplayMode: 'on'
+      
+      },
+
+      subscribeToAudio: false,
+      audioVolume: 0,
+    };
     ///prevent echo: Don't susbcribe to your own audio, but right now. Don't subscribe to yourself.
     if (streams[ii].name != user) {
       console.log("subscribing non muted");
@@ -36,8 +48,13 @@ function subscribeToStreams(streams) {
     }    
     else
     {
-      console.log(" muted");  
-   //   var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subPropertiesMute);
+      console.log("muted 2");  
+      var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subPropertiesMuted, function(err){
+        if(!err){
+          subscriber.subscribeToVideo(false).subscribeToAudio(false);
+          subscriber.setAudioVolume(0);
+        } 
+      });
     }
   }
 }
