@@ -4,5 +4,4 @@ module.exports = {
 	'db' : 'WorldManagerRyan',
 	'opentokapi' : '10120602',
 	'opentoksecret' : '41c132f9c35f3278f4d2b78b8f87bb4b94210b3d',
-    'minSFMThresh' : 255 //talk threshhold default = 255
 };

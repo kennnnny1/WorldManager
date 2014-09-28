@@ -95,10 +95,27 @@ $('#ChatHistory').hide();
 $('#ToggleChat').hide();
 $('#ToggleChat').click(function() {
 $('#ChatHistory').slideToggle('medium');
+
 });
 
 
 });
+
+
+$(document).ready(function(){
+if(typeof $.cookie("fullscreen") === "undefined"){
+        $.cookie("fullscreen", 0);
+};
+
+if($.cookie("fullscreen") == 1){
+        $('.container').children().toggle();
+        $('#playerAndRoom').appendTo("body");
+}
+
+
+
+});
+
 //]]>
 </script>
 
@@ -107,6 +124,7 @@ $('#ChatHistory').slideToggle('medium');
 
 	<div id="playerAndRoom" style="display:inline; width:100%">
 	<button id='toggleHide'>Toggle Fullscreen</button>
+        <button id='reconnectAudio'>Reconnect to audio channel</button>
 
 		<div id="unityPlayer" style=" float:left; width: 600px; height: 450px; visibility: visible;">
 			<embed width="600" height="450" type="application/vnd.unity" style="display: block; width: 100%; height: 100%;" tabindex="0" firstframecallback="unityObject.firstFrameCallback();" src={{world.world}}>
@@ -132,6 +150,12 @@ $('#ChatHistory').slideToggle('medium');
 
 <script>
 $('#toggleHide').click(function(){
+
+	if($.cookie("fullscreen") == 1){
+		$.cookie("fullscreen",0);
+	}else{
+		$.cookie("fullscreen",1);
+	}
 	if($('.redbackground').is(":visible")){
 			$('.container').children().toggle();
 			$('#playerAndRoom').appendTo("body");
@@ -142,6 +166,17 @@ $('#toggleHide').click(function(){
 		}
 
 });
+
+
+$('#reconnectAudio').click(function(){
+        console.log("Reconnecting...");
+        sessions[prevRoom].disconnect();
+        unpublish(prevroom);//just in case we're still stuck in previous room
+        sessions[currentRoom].disconnect();
+        sessions[currentRoom].connect(apikey, tokens[currentRoom]);
+});
+
+
 </script>
 
 <br style="clear:both" />

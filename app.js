@@ -63,7 +63,9 @@ function isAdmin(email,done){
     var returnVal = false;
 
     db.collection("users").findOne({"emails":{"$in":[{"value":email}]}},function(err,docs){
-        if(docs.isAdmin){
+        if(err) console.log(err);
+	if(!docs)return done(false);
+	if(docs.isAdmin){
             returnVal = true
         }
         return done(returnVal);
@@ -231,26 +233,70 @@ app.get('/all', function(req, res) {
 
 
 
-app.get('/admin',function(req, res){
-    console.log(req)
+app.get('/admin/editfrontpage',function(req, res){
+    //console.log(req)
 
-    var email = req.user.emails[0]
+    //var email = req.user.emails[0]
+    //console.log("user attempting to access admin page: " + email);
+    if (!req.isAuthenticated()){
+      req.hbs.path = partialsDir + '/401.hbs';
+      res.render('root',req.hbs);
+      return;
+    }
 
-    isAdmin("brianjhillman@gmail.com", function(isAdmin){
-        if(isAdmin){
-            db.collection('worlds').find(function(err , docs){
+    if(req.user.isAdmin){  
+            db.collection('worlds').find(function(err, docs){
+		
+               // console.log(docs);
                 req.hbs.preview = docs;
-                req.hbs.path = partialsDir + '/admin.hbs';
+                req.hbs.path = partialsDir + '/admin/editfrontpage.hbs';
                 res.render('root', req.hbs)
             });
-        }else{
+    }else{
             req.hbs.path = partialsDir + '/401.hbs';
             res.render('root', req.hbs);
-        }
+    }
+})
+
+app.get('/admin/deleteworlds', function(req,res){
+
+    if (!req.isAuthenticated()){
+      req.hbs.path = partialsDir + '/401.hbs';
+      res.render('root',req.hbs);
+      return;
+    }
+
+    if(req.user.isAdmin){
+            db.collection('worlds').find(function(err, docs){
+                req.hbs.preview = docs;
+                req.hbs.path = partialsDir + '/admin/deleteworlds.hbs';
+                res.render('root', req.hbs)
+            });
+    }else{
+            req.hbs.path = partialsDir + '/401.hbs';
+            res.render('root', req.hbs);
+    }
+})
+
+app.get('/admin/admin', function(req, res){
+	if (req.isAuthenticated()){
+		if(req.user.isAdmin){
+	        	req.hbs.path = partialsDir + '/admin/admin.hbs';
+			res.render('root', req.hbs);		
+                        return;	
+		}
+
+	}
+	req.hbs.path = partialsDir + '/401.hbs';
+        res.render('root', req.hbs);
+	
+})
+
+app.get('/admin',function(req, res){
+	res.redirect('/admin/admin');
+
+
 });
-    })
-
-
 app.get('/world/:id', function(req, res) {
     //we're encoding uri's now so they have to be decoded.
     req.params.id = decodeURIComponent(req.params.id)
@@ -287,7 +333,7 @@ app.get('/world/:id', function(req, res) {
 
 });
 
-app.post('/admin', function(req,res,next){
+app.post('/admin/editfrontpage', function(req,res,next){
     req.hbs.identifier = req.params.id;
 
     if(req.isAuthenticated){
@@ -298,7 +344,20 @@ app.post('/admin', function(req,res,next){
         res.redirect("/")
     }
 });
+app.post('/admin/deleteworlds',function(req,res,next){
+	if(req.isAuthenticated){
+		for(deletion in req.body){
+       		 db.collection('worlds').find({'_id':new db.ObjectId(deletion)}, function(err, docs) {
+			console.log('deleting...' + docs[0].id);
+        	        deleteFolderRecursive(__dirname + '/builds/' + docs[0].id);
+                	deleteFolderRecursive(__dirname + '/img/' + docs[0].id);
+       		});
+        	db.collection('worlds').remove({'_id':new db.ObjectId(deletion)});
 
+		}
+	}
+	res.redirect('/');
+});
 app.post('/', function(req, res, next) {
   console.log("Uploading new world.");
 	if (req.isAuthenticated())
@@ -394,9 +453,12 @@ app.post('/template', function(req, res, next) {
               opentok.createSession(opts, function(err, result) {
                 newWorld.opentokSessions.middle = result.sessionId;
                 console.log(newWorld);
-                db.collection('worlds').save(newWorld, function(err) {
-                  res.redirect('/');
-                });
+                //fs.writeFile(__dirname + '/builds/' + req.body.nickname, newWorld.opentokSessions , function (err ) {
+                  //if(err)throw err; 
+        	       db.collection('worlds').save(newWorld, function(err) {
+        	          res.redirect('/');
+	                });
+		//});
               });
             });
           });

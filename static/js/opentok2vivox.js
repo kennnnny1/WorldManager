@@ -62,6 +62,8 @@ function VivoxLogin(player) {
   console.log('VivoxLoginEnd: ' + player);
 }
 
+
+
 function SwitchToChannel(newChannel) {
   //This is where the vivox session disconnect and connect code should go.
   prevRoom = currentRoom;
