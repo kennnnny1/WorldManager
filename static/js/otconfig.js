@@ -26,7 +26,8 @@ function subscribeToStreams(streams) {
       width: 128,
       style: {
        nameDisplayMode: 'on'
-      }
+      },
+     subscribeToVideo: false
     };
 
     var subPropertiesMuted = {
@@ -44,7 +45,8 @@ function subscribeToStreams(streams) {
     ///prevent echo: Don't susbcribe to your own audio, but right now. Don't subscribe to yourself.
     if (streams[ii].name != user) {
       console.log("subscribing non muted");
-      var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subProperties);  // subscriber.subscribeToVideo(false).subscribeToAudio(true);
+      var subscriber = sessions[currentRoom].subscribe(streams[ii], 'stream' + streams[ii].streamId, subProperties); 
+      subscriber.subscribeToVideo(false).subscribeToAudio(true);
     }    
     else
     {
