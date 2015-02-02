@@ -1,0 +1,11 @@
+{{#if isAuthenticated}}
+    <h1>Admin</h1>
+
+    <a href="/admin/editfrontpage">Edit featured</a>
+	</br>
+    <a href="/admin/deleteworlds">Delete worlds</a>
+
+{{else}}
+    {{> login}}
+{{/if}}
+

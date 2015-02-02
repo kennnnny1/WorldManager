@@ -1,0 +1,68 @@
+info: socket.io started
+Using devlopment version
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0
+WorldManager now listening on port:3001
+registering file: 404.hbs
+404
+registering file: about.hbs
+about
+registering file: builds.hbs
+builds
+registering file: contact.hbs
+contact
+registering file: createprofile.hbs
+createprofile
+registering file: createworld.hbs
+createworld
+registering file: editor.hbs
+editor
+registering file: editpage.hbs
+editpage
+registering file: editprofile.hbs
+editprofile
+registering file: editworld.hbs
+editworld
+registering file: filenav.hbs
+filenav
+registering file: home.hbs
+home
+registering file: login.hbs
+login
+registering file: myprofile.hbs
+myprofile
+registering file: myworlds.hbs
+myworlds
+registering file: opentok.hbs
+opentok
+registering file: support.hbs
+support
+registering file: upload.hbs
+upload
+registering file: world.hbs
+world
+[90mGET / [36m304 [90m200ms[0m
+[90mGET / [36m304 [90m53ms[0m
+[90mGET /components/bootstrap-css/css/bootstrap.css [36m304 [90m2ms[0m
+[90mGET /components/jquery/jquery.min.js [36m304 [90m4ms[0m
+[90mGET /components/bootstrap-css/js/bootstrap.js [36m304 [90m4ms[0m
+[90mGET /js/jquery.cookie.js [36m304 [90m3ms[0m
+[90mGET /builds/11934-2lfo2s.unity3d/img/VNegotiationImage.png [36m304 [90m14ms[0m
+[90mGET /builds/26279-1mq4ty6.unity3d/img/8846-1sj1qsn[1].unity3d [36m304 [90m14ms[0m
+[90mGET /builds/26279-1fdlco4.unity3d/img/VNegotiationImage[1].png [36m304 [90m3ms[0m
+[90mGET /builds/tw/img/logo.png [36m304 [90m1ms[0m
+[90mGET /builds/test/img/logo.png [36m304 [90m2ms[0m
+[90mGET /img/rutgersHeaderBackground.png [36m304 [90m1ms[0m
+[90mGET /favicon.ico [36m304 [90m2ms[0m
+[90mGET / [36m304 [90m20ms[0m
+[90mGET /components/bootstrap-css/css/bootstrap.css [36m304 [90m4ms[0m
+[90mGET /components/jquery/jquery.min.js [36m304 [90m3ms[0m
+[90mGET /components/bootstrap-css/js/bootstrap.js [36m304 [90m3ms[0m
+[90mGET /js/jquery.cookie.js [36m304 [90m2ms[0m
+[90mGET /builds/11934-2lfo2s.unity3d/img/VNegotiationImage.png [36m304 [90m3ms[0m
+[90mGET /builds/26279-1mq4ty6.unity3d/img/8846-1sj1qsn[1].unity3d [36m304 [90m4ms[0m
+[90mGET /builds/26279-1fdlco4.unity3d/img/VNegotiationImage[1].png [36m304 [90m1ms[0m
+[90mGET /builds/test/img/logo.png [36m304 [90m1ms[0m
+[90mGET /builds/tw/img/logo.png [36m304 [90m1ms[0m
+[90mGET /img/rutgersHeaderBackground.png [36m304 [90m0ms[0m

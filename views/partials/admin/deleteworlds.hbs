@@ -1,0 +1,14 @@
+{{#if isAuthenticated}}
+    <h1>Admin</h1>
+    <h2>Select which items appear as featured for the front page</h2>
+    <form action="/admin/deleteworlds" method="post" enctype="multipart/form-data">
+        {{#each preview}}
+                <input name={{this._id}} type="checkbox"> {{this.name}}, {{this.info}} </input>
+            </br>
+        {{/each}}
+        <p><input type="Submit"></p>
+    </form>
+{{else}}
+    {{> login}}
+{{/if}}
+

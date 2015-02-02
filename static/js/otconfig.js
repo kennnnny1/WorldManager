@@ -85,8 +85,11 @@ function unpublish(room) {
   console.log('unpublished: ' + room);
 }
 function publish(room) {
+ var pubPropertiesMuted = {
+      publishVideo: false,
+    };
   publisher.name = user;
-  sessions[room].publish(publisher);
+  sessions[room].publish(publisher,pubPropertiesMuted);
   console.log('published: ' + room);
   console.log("Name: " + name );
 }

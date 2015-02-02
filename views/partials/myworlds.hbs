@@ -5,13 +5,14 @@
 {{/unless}}
 {{#each preview}} 
 	<li class="span3">
+		<div class = "caption pagination-centered">
+                        <h3>{{this.name}}</h3>
+                        <p>{{this.info}}</p>
+                </div>
+
 		<a href={{this.href}} class="thumbnail"><img src={{this.img}} alt={{this.name}}/></a>
 		<a class="btn btn-mini"  href="/editworld/{{this.id}}">Edit World</a>
 		<a class="btn btn-mini"  href="/deleteworld/{{this.id}}">Delete World</a>
-		<div class = "caption pagination-centered">
-			<h3>{{this.name}}</h3>
-			<p>{{this.info}}</p>
-		</div>
 	</li>
 {{/each}}
 </ul>

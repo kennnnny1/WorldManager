@@ -1,0 +1,18 @@
+{{#if isAuthenticated}}
+    <h1>Admin</h1>
+    <h2>Select which items appear as featured for the front page</h2>
+    <form action="/admin/editfrontpage" method="post" enctype="multipart/form-data">
+        {{#each preview}}
+            {{#if this.featured}}
+                <input name={{this._id}} type="checkbox" checked> {{this.name}}, {{this.info}} </input>
+            {{else}}
+                <input name={{this._id}} type="checkbox"> {{this.name}}, {{this.info}} </input>
+            {{/if}}
+            </br>
+        {{/each}}
+        <p><input type="Submit"></p>
+    </form>
+{{else}}
+    {{> login}}
+{{/if}}
+

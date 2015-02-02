@@ -1,0 +1,110 @@
+<script type="text/javascript" src="https://ssl-webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js"></script><script src="/js/TB.js"></script>
+<style type="text/css">
+.OT_mini .OT_name.OT_mode-on {
+display: block !important;
+}
+</style>
+<script type="text/javascript">
+    	<!--
+			var config = {
+				width: 600, 
+				height: 450,
+				params: {
+					enableDebugging:"0",
+					disableContextMenu: "true"
+				 }
+				
+			};
+			var u = new UnityObject2(config);
+			//This line GetUnity provides a backwards compatability function
+			var GetUnity = u.getUnity;
+
+			jQuery(function() {
+
+				var $missingScreen = jQuery("#unityPlayer").find(".missing");
+				var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+				$missingScreen.hide();
+				$brokenScreen.hide();
+				
+				u.observeProgress(function (progress) {
+					switch(progress.pluginStatus) {
+						case "broken":
+							$brokenScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$brokenScreen.show();
+						break;
+						case "missing":
+							$missingScreen.find("a").click(function (e) {
+								e.stopPropagation();
+								e.preventDefault();
+								u.installPlugin();
+								return false;
+							});
+							$missingScreen.show();
+						break;
+						case "installed":
+							$missingScreen.remove();
+						break;
+						case "first":
+						break;
+					}
+				});
+				u.initPlugin(jQuery("#unityPlayer")[0], "{{world.world}}");
+			});
+		-->
+		</script>
+<script type="text/javascript">
+var apikey = "10120602";
+var room = "middle";
+var currentRoom = "middle";
+var sessionids = {
+"union" : "{{world.opentokSessions.union}}",
+"management" : "{{world.opentokSessions.management}}",
+"middle" : "{{world.opentokSessions.middle}}"
+};
+var tokens = {};
+var sessions = {};
+
+console.log("Joining:" + room);
+</script>
+<script type="text/javascript" src="/js/opentok.js"></script>
+<script type="text/javascript" src="/js/opentok2vivox.js"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+
+//request from unity to get name of smartfox room
+function GetUnityRoom() {
+   GetUnity().SendMessage("Init", "Init", "RoomThree");
+}
+$(document).ready(function() {
+//   VivoxInstall();
+//DisplayChatBox("ContractPlaque");
+$('#ChatHistory').hide();
+$('#ToggleChat').hide();
+$('#ToggleChat').click(function() {
+$('#ChatHistory').slideToggle('medium');
+});
+
+
+});
+//]]>
+</script>
+<div id="unityPlayer" style="width: 600px; height: 450px; visibility: visible;">
+	<embed width="600" height="450" type="application/vnd.unity" style="display: block; width: 100%; height: 100%;" tabindex="0" firstframecallback="unityObject.firstFrameCallback();" src={{world.world}}>
+</div>
+<div id="room1" class="well">
+    <h2 id="rooms">Room:</h2>
+    <div id="OnlineUsers"></div>
+
+    <div id="opentok" class="well">
+	<div id="devicePanelContainer"></div>
+	<div id="publisherContainer" style="display: none;"></div>
+	<div id="streamsContainer" style="overflow: auto;"></div>
+    </div>
+</div>
+
