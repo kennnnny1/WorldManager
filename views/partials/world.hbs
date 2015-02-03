@@ -1,7 +1,9 @@
 <script type="text/javascript" src="https://ssl-webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject2.js"></script>
 <script src="/js/OT.js"></script>
 <script type="text/javascript" src="/js/opentok2vivox.js"></script>
-
+<script>
+	OT.getDevices(function(devices){if(devices == undefined) alert('Microphone or camera not detected')})
+</script>
 <style type="text/css">
 .OT_mini .OT_name.OT_mode-on {
 display: block !important;
