@@ -37,7 +37,11 @@
 
   </script>
 
-
+  <script> 
+  if(document.URL.indexOf(':3000') > -1){
+    window.location.replace(document.URL.replace(':3000',''));
+  }
+  </script>
   </head>
 
 	<body>
